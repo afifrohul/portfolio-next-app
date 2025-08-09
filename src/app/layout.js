@@ -1,4 +1,5 @@
 import NextTopLoader from "nextjs-toploader";
+import { Toaster } from "sonner";
 import "./globals.css";
 
 export const metadata = {
@@ -12,6 +13,7 @@ export default function RootLayout({ children }) {
       <body className={`antialiased`}>
         <NextTopLoader color="#64748b" />
         {children}
+        <Toaster position="top-right" />
       </body>
     </html>
   );

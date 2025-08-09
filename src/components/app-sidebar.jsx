@@ -1,6 +1,6 @@
 "use client";
 
-import { LayoutDashboardIcon } from "lucide-react";
+import { LayoutDashboardIcon, UserCircleIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -26,6 +26,11 @@ const items = [
     url: "/dashboard",
     icon: LayoutDashboardIcon,
   },
+  {
+    title: "About",
+    url: "/about",
+    icon: UserCircleIcon,
+  },
 ];
 
 export function AppSidebar({ user }) {
@@ -42,9 +47,9 @@ export function AppSidebar({ user }) {
             >
               <Link href="/">
                 <Image
-                  src={"/next.svg"}
-                  width={20}
-                  height={20}
+                  src={"/afif.svg"}
+                  width={18}
+                  height={18}
                   alt="logo"
                 ></Image>
                 <span className="text-base font-semibold">Afif Rohul.</span>
