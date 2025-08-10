@@ -48,7 +48,10 @@ export default function About() {
         });
       }
 
-      if (!res.ok) throw new Error("Failed to save data.");
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.error || "Failed to save data.");
+      }
 
       const updated = await res.json();
 
@@ -75,7 +78,10 @@ export default function About() {
         method: "DELETE",
       });
 
-      if (!res.ok) throw new Error("Failed to delete data");
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.error || "Failed to save data.");
+      }
 
       setAbout((prev) => prev.filter((item) => item.id !== id));
       toast.success("Data deleted successfully");
