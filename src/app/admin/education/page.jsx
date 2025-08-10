@@ -159,17 +159,17 @@ export default function Education() {
     {
       accessorKey: "end_month",
       header: "End Month",
-      cell: (info) => info.getValue(),
+      cell: (info) => (info.getValue() ? info.getValue() : "-"),
     },
     {
       accessorKey: "end_year",
       header: "End Year",
-      cell: (info) => info.getValue(),
+      cell: (info) => (info.getValue() ? info.getValue() : "-"),
     },
     {
       accessorKey: "gpa",
       header: "GPA",
-      cell: (info) => info.getValue(),
+      cell: (info) => (info.getValue() ? info.getValue() : "-"),
     },
     {
       id: "actions",
@@ -328,7 +328,7 @@ export default function Education() {
               <div className="space-y-2 w-full">
                 <Label>End Month</Label>
                 <Select
-                  value={formData.end_month}
+                  value={formData.end_month || ""}
                   onValueChange={(value) =>
                     setFormData({ ...formData, end_month: value })
                   }
@@ -360,7 +360,7 @@ export default function Education() {
                 <Input
                   type="number"
                   placeholder="Enter end year"
-                  value={formData.end_year}
+                  value={formData.end_year || ""}
                   onChange={(e) =>
                     setFormData({
                       ...formData,
@@ -375,7 +375,7 @@ export default function Education() {
               <Input
                 type="number"
                 placeholder="Enter GPA, e.g., 3,58"
-                value={formData.gpa}
+                value={formData.gpa || ""}
                 onChange={(e) =>
                   setFormData({ ...formData, gpa: Number(e.target.value) })
                 }

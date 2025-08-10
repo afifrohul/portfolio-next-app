@@ -36,9 +36,9 @@ export async function POST(req) {
           departement: body.departement,
           start_month: body.start_month,
           start_year: body.start_year,
-          end_month: body.end_month,
-          end_year: body.end_year,
-          gpa: body.gpa,
+          end_month: body.end_month || null,
+          end_year: body.end_year || null,
+          gpa: body.gpa || null,
         },
       ])
       .select()
