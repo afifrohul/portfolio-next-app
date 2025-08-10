@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  CogIcon,
   GraduationCapIcon,
   LayoutDashboardIcon,
   TableOfContentsIcon,
@@ -46,6 +47,11 @@ const items = [
     title: "Experience",
     url: "/experience",
     icon: TableOfContentsIcon,
+  },
+  {
+    title: "Skill",
+    url: "/skill",
+    icon: CogIcon,
   },
 ];
 
