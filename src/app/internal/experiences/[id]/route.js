@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
-// PUT - Update about berdasarkan id
 export async function PUT(req, { params }) {
   try {
     const supabase = await createClient();
@@ -34,7 +33,6 @@ export async function PUT(req, { params }) {
   }
 }
 
-// DELETE - Hapus about berdasarkan id
 export async function DELETE(req, { params }) {
   try {
     const supabase = await createClient();

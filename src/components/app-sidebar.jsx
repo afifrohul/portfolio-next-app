@@ -2,6 +2,7 @@
 
 import {
   CogIcon,
+  FolderGit2Icon,
   GraduationCapIcon,
   LayoutDashboardIcon,
   TableOfContentsIcon,
@@ -52,6 +53,11 @@ const items = [
     title: "Skill",
     url: "/skill",
     icon: CogIcon,
+  },
+  {
+    title: "Project",
+    url: "/project",
+    icon: FolderGit2Icon,
   },
 ];
 
