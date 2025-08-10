@@ -19,6 +19,7 @@ import {
 
 import { NavUser } from "@/components/nav-user";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
 const items = [
   {
@@ -35,6 +36,7 @@ const items = [
 
 export function AppSidebar({ user }) {
   const pathname = usePathname();
+  const { theme } = useTheme();
 
   return (
     <Sidebar collapsible="icon">
@@ -47,7 +49,7 @@ export function AppSidebar({ user }) {
             >
               <Link href="/">
                 <Image
-                  src={"/afif.svg"}
+                  src={theme === "dark" ? "/afif-light.svg" : "/afif.svg"}
                   width={18}
                   height={18}
                   alt="logo"
