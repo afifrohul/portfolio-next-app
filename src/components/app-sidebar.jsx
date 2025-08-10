@@ -3,6 +3,7 @@
 import {
   GraduationCapIcon,
   LayoutDashboardIcon,
+  TableOfContentsIcon,
   UserCircleIcon,
 } from "lucide-react";
 import Link from "next/link";
@@ -40,6 +41,11 @@ const items = [
     title: "Education",
     url: "/education",
     icon: GraduationCapIcon,
+  },
+  {
+    title: "Experience",
+    url: "/experience",
+    icon: TableOfContentsIcon,
   },
 ];
 
