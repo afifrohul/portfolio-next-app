@@ -17,6 +17,7 @@ import { Textarea } from "@/components/ui/textarea";
 import ConfirmButton from "@/components/confirm-button";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
+import axios from "axios";
 
 export default function About() {
   const [about, setAbout] = useState([]);
@@ -25,35 +26,42 @@ export default function About() {
   const [formData, setFormData] = useState({ id: null, desc: "" });
 
   useEffect(() => {
-    fetch("/internal/abouts")
-      .then((res) => res.json())
-      .then((data) => setAbout(data))
-      .catch((err) => console.error(err));
+    async function fetchAbout() {
+      try {
+        const res = await axios.get("/internal/abouts");
+        setAbout(res.data);
+      } catch (err) {
+        if (err.response) {
+          console.error(
+            "Server error:",
+            err.response.status,
+            err.response.data
+          );
+        } else if (err.request) {
+          console.error("No response received:", err.request);
+        } else {
+          console.error("Error setting up request:", err.message);
+        }
+      }
+    }
+
+    fetchAbout();
   }, []);
 
   const handleSubmit = async () => {
     try {
       let res;
       if (mode === "create") {
-        res = await fetch("/internal/abouts", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
+        res = await axios.post("/internal/abouts", formData);
       } else {
-        res = await fetch(`/internal/abouts/${formData.id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
+        res = await axios.put(`/internal/abouts/${formData.id}`, formData);
       }
 
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.error || "Failed to save data.");
+      if (!res.data.success) {
+        throw new Error(res.data.message || "Failed to save data.");
       }
 
-      const updated = await res.json();
+      const updated = res.data.data;
 
       if (mode === "create") {
         setAbout([...about, updated]);
@@ -63,31 +71,30 @@ export default function About() {
         );
       }
 
-      toast.success(updated.message || "Data saved successfully");
+      toast.success(res.data.message || "Data saved successfully");
       setOpen(false);
       setFormData({ id: null, desc: "" });
     } catch (err) {
       toast.error(err.message || "An error occurred while saving data");
-      console.error(err);
+      console.error("Submit error:", err);
     }
   };
 
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`/internal/abouts/${id}`, {
-        method: "DELETE",
-      });
+      const res = await axios.delete(`/internal/abouts/${id}`);
 
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.error || "Failed to save data.");
-      }
+      console.log(res);
 
       setAbout((prev) => prev.filter((item) => item.id !== id));
-      toast.success("Data deleted successfully");
+      toast.success(res.data.message || "Data deleted successfully");
     } catch (err) {
-      toast.error(err.message || "An error occurred while deleting data");
-      console.error(err);
+      const message =
+        err.response?.data?.error ||
+        err.message ||
+        "An error occurred while deleting data";
+      toast.error(message);
+      console.error(message);
     }
   };
 
