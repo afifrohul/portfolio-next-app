@@ -27,6 +27,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
+import axios from "axios";
 
 export default function Education() {
   const [education, setEducation] = useState([]);
@@ -45,35 +46,42 @@ export default function Education() {
   });
 
   useEffect(() => {
-    fetch("/internal/educations")
-      .then((res) => res.json())
-      .then((data) => setEducation(data))
-      .catch((err) => console.error(err));
+    async function fetchEducation() {
+      try {
+        const res = await axios.get("/internal/educations");
+        setEducation(res.data);
+      } catch (err) {
+        if (err.response) {
+          console.error(
+            "Server error:",
+            err.response.status,
+            err.response.data
+          );
+        } else if (err.request) {
+          console.error("No response received:", err.request);
+        } else {
+          console.error("Error setting up request:", err.message);
+        }
+      }
+    }
+
+    fetchEducation();
   }, []);
 
   const handleSubmit = async () => {
     try {
       let res;
       if (mode === "create") {
-        res = await fetch("/internal/educations", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
+        res = await axios.post("/internal/educations", formData);
       } else {
-        res = await fetch(`/internal/educations/${formData.id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
+        res = await axios.put(`/internal/educations/${formData.id}`, formData);
       }
 
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.error || "Failed to save data.");
+      if (!res.data.success) {
+        throw new Error(res.data.message || "Failed to save data.");
       }
 
-      const updated = await res.json();
+      const updated = res.data.data;
 
       if (mode === "create") {
         setEducation([...education, updated]);
@@ -83,7 +91,7 @@ export default function Education() {
         );
       }
 
-      toast.success(updated.message || "Data saved successfully");
+      toast.success(res.data.message || "Data saved successfully");
       setOpen(false);
       setFormData({
         id: null,
@@ -98,26 +106,23 @@ export default function Education() {
       });
     } catch (err) {
       toast.error(err.message || "An error occurred while saving data");
-      console.error(err);
+      console.error("Submit error:", err);
     }
   };
 
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`/internal/educations/${id}`, {
-        method: "DELETE",
-      });
-
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.error || "Failed to save data.");
-      }
+      const res = await axios.delete(`/internal/educations/${id}`);
 
       setEducation((prev) => prev.filter((item) => item.id !== id));
-      toast.success("Data deleted successfully");
+      toast.success(res.data.message || "Data deleted successfully");
     } catch (err) {
-      toast.error(err.message || "An error occurred while deleting data");
-      console.error(err);
+      const message =
+        err.response?.data?.error ||
+        err.message ||
+        "An error occurred while deleting data";
+      toast.error(message);
+      console.error(message);
     }
   };
 

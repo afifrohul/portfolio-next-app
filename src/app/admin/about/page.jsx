@@ -84,8 +84,6 @@ export default function About() {
     try {
       const res = await axios.delete(`/internal/abouts/${id}`);
 
-      console.log(res);
-
       setAbout((prev) => prev.filter((item) => item.id !== id));
       toast.success(res.data.message || "Data deleted successfully");
     } catch (err) {
