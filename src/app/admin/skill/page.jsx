@@ -14,19 +14,11 @@ import {
   DialogFooter,
   DialogDescription,
 } from "@/components/ui/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
+import axios from "axios";
 
 export default function Skill() {
   const [skill, setSkill] = useState([]);
@@ -38,35 +30,42 @@ export default function Skill() {
   });
 
   useEffect(() => {
-    fetch("/internal/skills")
-      .then((res) => res.json())
-      .then((data) => setSkill(data))
-      .catch((err) => console.error(err));
+    async function fetchSkill() {
+      try {
+        const res = await axios.get("/internal/skills");
+        setSkill(res.data);
+      } catch (err) {
+        if (err.response) {
+          console.error(
+            "Server error:",
+            err.response.status,
+            err.response.data
+          );
+        } else if (err.request) {
+          console.error("No response received:", err.request);
+        } else {
+          console.error("Error setting up request:", err.message);
+        }
+      }
+    }
+
+    fetchSkill();
   }, []);
 
   const handleSubmit = async () => {
     try {
       let res;
       if (mode === "create") {
-        res = await fetch("/internal/skills", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
+        res = await axios.post("/internal/skills", formData);
       } else {
-        res = await fetch(`/internal/skills/${formData.id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
+        res = await axios.put(`/internal/skills/${formData.id}`, formData);
       }
 
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.error || "Failed to save data.");
+      if (!res.data.success) {
+        throw new Error(res.data.message || "Failed to save data.");
       }
 
-      const updated = await res.json();
+      const updated = res.data.data;
 
       if (mode === "create") {
         setSkill([...skill, updated]);
@@ -76,34 +75,28 @@ export default function Skill() {
         );
       }
 
-      toast.success(updated.message || "Data saved successfully");
+      toast.success(res.data.message || "Data saved successfully");
       setOpen(false);
-      setFormData({
-        id: null,
-        name: "",
-      });
+      setFormData({ id: null, name: "" });
     } catch (err) {
       toast.error(err.message || "An error occurred while saving data");
-      console.error(err);
+      console.error("Submit error:", err);
     }
   };
 
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`/internal/skills/${id}`, {
-        method: "DELETE",
-      });
-
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.error || "Failed to save data.");
-      }
+      const res = await axios.delete(`/internal/skills/${id}`);
 
       setSkill((prev) => prev.filter((item) => item.id !== id));
-      toast.success("Data deleted successfully");
+      toast.success(res.data.message || "Data deleted successfully");
     } catch (err) {
-      toast.error(err.message || "An error occurred while deleting data");
-      console.error(err);
+      const message =
+        err.response?.data?.error ||
+        err.message ||
+        "An error occurred while deleting data";
+      toast.error(message);
+      console.error(message);
     }
   };
 

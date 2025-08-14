@@ -5,55 +5,97 @@ export async function PUT(req, { params }) {
   try {
     const supabase = await createClient();
     const body = await req.json();
-    const { id } = params;
-
-    if (!id) {
-      return NextResponse.json({ error: "ID is required" }, { status: 400 });
-    }
+    const { id } = await params;
 
     const { data, error } = await supabase
       .from("skills")
-      .update({ ...body })
+      .update({ name: body.name })
       .eq("id", id)
       .select()
       .single();
 
     if (error) {
-      console.error("Supabase error:", error.message, error.details);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      console.error("Supabase error:", error.message);
+      return NextResponse.json(
+        { success: false, message: error.message },
+        { status: 400 }
+      );
     }
 
-    return NextResponse.json(data, { message: "Updated successfully" });
+    return NextResponse.json(
+      { success: true, message: "Updated successfully", data },
+      { status: 200 }
+    );
   } catch (err) {
     console.error("Server error:", err);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { success: false, message: "Internal Server Error" },
       { status: 500 }
     );
   }
 }
 
 export async function DELETE(req, { params }) {
+  const supabase = await createClient();
+
   try {
-    const supabase = await createClient();
-    const { id } = params;
+    const { id } = await params;
 
     if (!id) {
-      return NextResponse.json({ error: "ID is required" }, { status: 400 });
+      return NextResponse.json(
+        { success: false, message: "ID is required" },
+        { status: 400 }
+      );
     }
 
-    const { error } = await supabase.from("skills").delete().eq("id", id);
+    const { data: existing, error: fetchError } = await supabase
+      .from("skills")
+      .select("id")
+      .eq("id", id)
+      .single();
 
-    if (error) {
-      console.error("Supabase error:", error.message, error.details);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+    if (fetchError || !existing) {
+      return NextResponse.json(
+        { success: false, message: "Data not found" },
+        { status: 404 }
+      );
     }
 
-    return NextResponse.json({ message: "Deleted successfully" });
+    const { error: deleteError, count } = await supabase
+      .from("skills")
+      .delete({ count: "exact" })
+      .eq("id", id);
+
+    if (deleteError) {
+      console.error(
+        "Supabase error:",
+        deleteError.message,
+        deleteError.details
+      );
+      return NextResponse.json(
+        { success: false, message: deleteError.message },
+        { status: 400 }
+      );
+    }
+
+    if (count === 0) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "You don't have permission to delete this item",
+        },
+        { status: 403 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: true, message: "Deleted successfully" },
+      { status: 200 }
+    );
   } catch (err) {
     console.error("Server error:", err);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { success: false, message: "Internal Server Error" },
       { status: 500 }
     );
   }

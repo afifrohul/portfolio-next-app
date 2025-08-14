@@ -7,16 +7,13 @@ export async function GET() {
 
     const { data, error } = await supabase.from("skills").select("*");
 
-    if (error) {
-      console.error("Supabase error:", error.message, error.details);
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
+    if (error) throw error;
 
     return NextResponse.json(data ?? []);
   } catch (err) {
     console.error("Server error:", err);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { success: false, message: err.message ?? "Internal Server Error" },
       { status: 500 }
     );
   }
@@ -29,28 +26,26 @@ export async function POST(req) {
 
     const { data, error } = await supabase
       .from("skills")
-      .insert([
-        {
-          name: body.name,
-        },
-      ])
+      .insert([{ name: body.name }])
       .select()
       .single();
 
     if (error) {
-      console.error("Supabase error:", error.message, error.details);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+      console.error("Supabase error:", error.message);
+      return NextResponse.json(
+        { success: false, message: error.message },
+        { status: 400 }
+      );
     }
 
     return NextResponse.json(
-      data,
-      { status: 201 },
-      { message: "Created successfully" }
+      { success: true, message: "Created successfully", data },
+      { status: 201 }
     );
   } catch (err) {
     console.error("Server error:", err);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { success: false, message: "Internal Server Error" },
       { status: 500 }
     );
   }
