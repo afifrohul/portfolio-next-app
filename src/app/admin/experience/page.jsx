@@ -28,6 +28,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
+import axios from "axios";
 
 export default function Experience() {
   const [experience, setExperience] = useState([]);
@@ -45,35 +46,42 @@ export default function Experience() {
   });
 
   useEffect(() => {
-    fetch("/internal/experiences")
-      .then((res) => res.json())
-      .then((data) => setExperience(data))
-      .catch((err) => console.error(err));
+    async function fetchExperience() {
+      try {
+        const res = await axios.get("/internal/experiences");
+        setExperience(res.data);
+      } catch (err) {
+        if (err.response) {
+          console.error(
+            "Server error:",
+            err.response.status,
+            err.response.data
+          );
+        } else if (err.request) {
+          console.error("No response received:", err.request);
+        } else {
+          console.error("Error setting up request:", err.message);
+        }
+      }
+    }
+
+    fetchExperience();
   }, []);
 
   const handleSubmit = async () => {
     try {
       let res;
       if (mode === "create") {
-        res = await fetch("/internal/experiences", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
+        res = await axios.post("/internal/experiences", formData);
       } else {
-        res = await fetch(`/internal/experiences/${formData.id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
+        res = await axios.put(`/internal/experiences/${formData.id}`, formData);
       }
 
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.error || "Failed to save data.");
+      if (!res.data.success) {
+        throw new Error(res.data.message || "Failed to save data.");
       }
 
-      const updated = await res.json();
+      const updated = res.data.data;
 
       if (mode === "create") {
         setExperience([...experience, updated]);
@@ -83,7 +91,7 @@ export default function Experience() {
         );
       }
 
-      toast.success(updated.message || "Data saved successfully");
+      toast.success(res.data.message || "Data saved successfully");
       setOpen(false);
       setFormData({
         id: null,
@@ -97,7 +105,7 @@ export default function Experience() {
       });
     } catch (err) {
       toast.error(err.message || "An error occurred while saving data");
-      console.error(err);
+      console.error("Submit error:", err);
     }
   };
 
