@@ -6,25 +6,22 @@ export async function GET() {
     const supabase = await createClient();
 
     const { data, error } = await supabase.from("projects").select(`
-    *,
-    project_skills (
-      skill:skills (
-        id,
-        name
+      *,
+      project_skills (
+        skill:skills (
+          id,
+          name
+        )
       )
-    )
-  `);
+    `);
 
-    if (error) {
-      console.error("Supabase error:", error.message, error.details);
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
+    if (error) throw error;
 
     return NextResponse.json(data ?? []);
   } catch (err) {
     console.error("Server error:", err);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { success: false, message: err.message ?? "Internal Server Error" },
       { status: 500 }
     );
   }
@@ -50,8 +47,8 @@ export async function POST(req) {
     if (projectError) {
       console.error("Supabase project insert error:", projectError.message);
       return NextResponse.json(
-        { error: projectError.message },
-        { status: 500 }
+        { success: false, message: projectError.message },
+        { status: 400 }
       );
     }
 
@@ -68,43 +65,46 @@ export async function POST(req) {
       if (pivotError) {
         console.error("Supabase pivot insert error:", pivotError.message);
         return NextResponse.json(
-          { error: pivotError.message },
-          { status: 500 }
+          { success: false, message: pivotError.message },
+          { status: 400 }
         );
       }
     }
 
-    // Query ulang project dengan relasi
     const { data: projectWithSkills, error: fetchError } = await supabase
       .from("projects")
       .select(
         `
-    *,
-    project_skills (
-      skill:skills (
-        id,
-        name
-      )
-    )
-  `
+          *,
+          project_skills (
+            skill:skills (
+              id,
+              name
+            )
+          )
+        `
       )
       .eq("id", project.id)
       .single();
 
     if (fetchError) {
       console.error("Supabase fetch error:", fetchError.message);
-      return NextResponse.json({ error: fetchError.message }, { status: 500 });
+      return NextResponse.json(
+        { success: false, message: fetchError.message },
+        { status: 500 }
+      );
     }
 
+    console.log(projectWithSkills);
+
     return NextResponse.json(
-      projectWithSkills,
-      { status: 201 },
-      { message: "Created successfully" }
+      { success: true, message: "Created successfully", projectWithSkills },
+      { status: 201 }
     );
   } catch (err) {
     console.error("Server error:", err);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { success: false, message: "Internal Server Error" },
       { status: 500 }
     );
   }

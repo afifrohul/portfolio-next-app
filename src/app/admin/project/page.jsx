@@ -20,6 +20,7 @@ import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
 import MultiSelect from "@/components/multi-select";
+import axios from "axios";
 
 export default function Project() {
   const [project, setProject] = useState([]);
@@ -33,41 +34,47 @@ export default function Project() {
     project_skills: [],
   });
 
-  useEffect(() => {
-    fetch("/internal/projects")
-      .then((res) => res.json())
-      .then((data) => setProject(data))
-      .catch((err) => console.error(err));
+  // console.log(project);
 
-    fetch("/internal/skills")
-      .then((res) => res.json())
-      .then((skill) => setSkill(skill))
-      .catch((err) => console.error(err));
+  useEffect(() => {
+    async function fetchProjectSkill() {
+      try {
+        const resProject = await axios.get("/internal/projects");
+        setProject(resProject.data);
+        const resSkill = await axios.get("/internal/skills");
+        setSkill(resSkill.data);
+      } catch (err) {
+        if (err.response) {
+          console.error(
+            "Server error:",
+            err.response.status,
+            err.response.data
+          );
+        } else if (err.request) {
+          console.error("No response received:", err.request);
+        } else {
+          console.error("Error setting up request:", err.message);
+        }
+      }
+    }
+
+    fetchProjectSkill();
   }, []);
 
   const handleSubmit = async () => {
     try {
       let res;
       if (mode === "create") {
-        res = await fetch("/internal/projects", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
+        res = await axios.post("/internal/projects", formData);
       } else {
-        res = await fetch(`/internal/projects/${formData.id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
+        res = await axios.put(`/internal/projects/${formData.id}`, formData);
       }
 
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.error || "Failed to save data.");
+      if (!res.data.success) {
+        throw new Error(res.data.message || "Failed to save data.");
       }
 
-      const updated = await res.json();
+      const updated = res.data.projectWithSkills;
 
       if (mode === "create") {
         setProject([...project, updated]);
@@ -77,35 +84,28 @@ export default function Project() {
         );
       }
 
-      toast.success(updated.message || "Data saved successfully");
+      toast.success(res.data.message || "Data saved successfully");
       setOpen(false);
-      setFormData({
-        id: null,
-        title: "",
-        desc: "",
-      });
+      setFormData({ id: null, title: "", desc: "", project_skills: [] });
     } catch (err) {
       toast.error(err.message || "An error occurred while saving data");
-      console.error(err);
+      console.error("Submit error:", err);
     }
   };
 
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`/internal/projects/${id}`, {
-        method: "DELETE",
-      });
-
-      if (!res.ok) {
-        const errData = await res.json();
-        throw new Error(errData.error || "Failed to save data.");
-      }
+      const res = await axios.delete(`/internal/projects/${id}`);
 
       setProject((prev) => prev.filter((item) => item.id !== id));
-      toast.success("Data deleted successfully");
+      toast.success(res.data.message || "Data deleted successfully");
     } catch (err) {
-      toast.error(err.message || "An error occurred while deleting data");
-      console.error(err);
+      const message =
+        err.response?.data?.error ||
+        err.message ||
+        "An error occurred while deleting data";
+      toast.error(message);
+      console.error(message);
     }
   };
 

@@ -5,13 +5,8 @@ export async function PUT(req, { params }) {
   try {
     const supabase = await createClient();
     const body = await req.json();
-    const { id } = params;
+    const { id } = await params;
 
-    if (!id) {
-      return NextResponse.json({ error: "ID is required" }, { status: 400 });
-    }
-
-    // Update data project utama
     const { data: updatedProject, error: updateError } = await supabase
       .from("projects")
       .update({
@@ -25,7 +20,10 @@ export async function PUT(req, { params }) {
 
     if (updateError) {
       console.error("Supabase update error:", updateError.message);
-      return NextResponse.json({ error: updateError.message }, { status: 500 });
+      return NextResponse.json(
+        { success: false, message: updateError.message },
+        { status: 400 }
+      );
     }
 
     if (body.project_skills && Array.isArray(body.project_skills)) {
@@ -37,8 +35,8 @@ export async function PUT(req, { params }) {
       if (deleteError) {
         console.error("Supabase delete pivot error:", deleteError.message);
         return NextResponse.json(
-          { error: deleteError.message },
-          { status: 500 }
+          { success: false, message: deleteError.message },
+          { status: 400 }
         );
       }
 
@@ -54,8 +52,8 @@ export async function PUT(req, { params }) {
       if (insertError) {
         console.error("Supabase insert pivot error:", insertError.message);
         return NextResponse.json(
-          { error: insertError.message },
-          { status: 500 }
+          { success: false, message: insertError.message },
+          { status: 400 }
         );
       }
     }
@@ -78,12 +76,16 @@ export async function PUT(req, { params }) {
 
     if (fetchError) {
       console.error("Supabase fetch error:", fetchError.message);
-      return NextResponse.json({ error: fetchError.message }, { status: 500 });
+      return NextResponse.json(
+        { success: false, message: fetchError.message },
+        { status: 400 }
+      );
     }
 
-    return NextResponse.json(projectWithSkills, {
-      message: "Updated successfully",
-    });
+    return NextResponse.json(
+      { success: true, message: "Updated successfully", projectWithSkills },
+      { status: 200 }
+    );
   } catch (err) {
     console.error("Server error:", err);
     return NextResponse.json(
@@ -94,26 +96,66 @@ export async function PUT(req, { params }) {
 }
 
 export async function DELETE(req, { params }) {
+  const supabase = await createClient();
+
   try {
-    const supabase = await createClient();
-    const { id } = params;
+    const { id } = await params;
 
     if (!id) {
-      return NextResponse.json({ error: "ID is required" }, { status: 400 });
+      return NextResponse.json(
+        { success: false, message: "ID is required" },
+        { status: 400 }
+      );
     }
 
-    const { error } = await supabase.from("projects").delete().eq("id", id);
+    const { data: existing, error: fetchError } = await supabase
+      .from("projects")
+      .select("id")
+      .eq("id", id)
+      .single();
 
-    if (error) {
-      console.error("Supabase error:", error.message, error.details);
-      return NextResponse.json({ error: error.message }, { status: 500 });
+    if (fetchError || !existing) {
+      return NextResponse.json(
+        { success: false, message: "Data not found" },
+        { status: 404 }
+      );
     }
 
-    return NextResponse.json({ message: "Deleted successfully" });
+    const { error: deleteError, count } = await supabase
+      .from("projects")
+      .delete({ count: "exact" })
+      .eq("id", id);
+
+    if (deleteError) {
+      console.error(
+        "Supabase error:",
+        deleteError.message,
+        deleteError.details
+      );
+      return NextResponse.json(
+        { success: false, message: deleteError.message },
+        { status: 400 }
+      );
+    }
+
+    if (count === 0) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "You don't have permission to delete this item",
+        },
+        { status: 403 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: true, message: "Deleted successfully" },
+      { status: 200 }
+    );
   } catch (err) {
     console.error("Server error:", err);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { success: false, message: "Internal Server Error" },
       { status: 500 }
     );
   }
