@@ -13,6 +13,12 @@ export default function Home() {
         <Preloader />
         <div className="flex justify-center items-center w-full min-h-screen flex-col gap-2 bg-muted">
           <div className="flex justify-center items-center gap-3">
+            <Image
+              src="https://etgcuhmmwxjmesnryxir.supabase.co/storage/v1/object/public/portfolio/profile.png"
+              width={28}
+              height={28}
+              alt="logo"
+            ></Image>
             <Image src={"/afif.svg"} width={18} height={18} alt="logo"></Image>
             <p className="italic">Afif Rohul</p>
           </div>

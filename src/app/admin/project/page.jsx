@@ -234,6 +234,10 @@ export default function Project() {
                 }
               />
             </div>
+            <div className="grid w-full items-center gap-3">
+              <Label htmlFor="picture">Image</Label>
+              <Input id="picture" type="file" />
+            </div>
             <div className="space-y-2 w-full">
               <Label>Description</Label>
               <Textarea

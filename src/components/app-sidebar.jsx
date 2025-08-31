@@ -1,12 +1,13 @@
 "use client";
 
 import {
+  CircleUserRoundIcon,
   CogIcon,
   FolderGit2Icon,
   GraduationCapIcon,
   LayoutDashboardIcon,
   TableOfContentsIcon,
-  UserCircleIcon,
+  UserPenIcon,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -35,9 +36,14 @@ const items = [
     icon: LayoutDashboardIcon,
   },
   {
+    title: "Profile",
+    url: "/profile",
+    icon: CircleUserRoundIcon,
+  },
+  {
     title: "About",
     url: "/about",
-    icon: UserCircleIcon,
+    icon: UserPenIcon,
   },
   {
     title: "Education",
