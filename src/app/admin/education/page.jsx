@@ -28,6 +28,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import axios from "axios";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function Education() {
   const [education, setEducation] = useState([]);
@@ -37,11 +38,12 @@ export default function Education() {
     id: null,
     company: "",
     location: "",
-    departement: "",
+    department: "",
     start_month: "",
     start_year: "",
     end_month: "",
     end_year: "",
+    desc: "",
     gpa: "",
   });
 
@@ -97,7 +99,7 @@ export default function Education() {
         id: null,
         company: "",
         location: "",
-        departement: "",
+        department: "",
         start_month: "",
         start_year: "",
         end_month: "",
@@ -147,8 +149,8 @@ export default function Education() {
       cell: (info) => info.getValue(),
     },
     {
-      accessorKey: "departement",
-      header: "Departement",
+      accessorKey: "department",
+      header: "Department",
       cell: (info) => info.getValue(),
     },
     {
@@ -170,6 +172,16 @@ export default function Education() {
       accessorKey: "end_year",
       header: "End Year",
       cell: (info) => (info.getValue() ? info.getValue() : "-"),
+    },
+    {
+      accessorKey: "desc",
+      header: "Description",
+      cell: (info) =>
+        info.getValue()?.length > 40 ? (
+          <>{info.getValue()?.substring(0, 40)}...</>
+        ) : (
+          info.getValue()
+        ),
     },
     {
       accessorKey: "gpa",
@@ -221,7 +233,7 @@ export default function Education() {
                     id: null,
                     company: "",
                     location: "",
-                    departement: "",
+                    department: "",
                     start_month: "",
                     start_year: "",
                     end_month: "",
@@ -276,10 +288,10 @@ export default function Education() {
             <div className="space-y-2">
               <Label>Departement</Label>
               <Input
-                value={formData.departement}
-                placeholder="Enter departement"
+                value={formData.department}
+                placeholder="Enter department"
                 onChange={(e) =>
-                  setFormData({ ...formData, departement: e.target.value })
+                  setFormData({ ...formData, department: e.target.value })
                 }
               />
             </div>
@@ -374,6 +386,16 @@ export default function Education() {
                   }
                 />
               </div>
+            </div>
+            <div className="space-y-4">
+              <Label>Description</Label>
+              <Textarea
+                placeholder="Description"
+                value={formData.desc}
+                onChange={(e) =>
+                  setFormData({ ...formData, desc: e.target.value })
+                }
+              />
             </div>
             <div className="space-y-2">
               <Label>GPA (use comma, not dot)</Label>

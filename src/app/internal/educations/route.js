@@ -30,11 +30,12 @@ export async function POST(req) {
         {
           company: body.company,
           location: body.location,
-          departement: body.departement,
+          department: body.department,
           start_month: body.start_month,
           start_year: body.start_year,
           end_month: body.end_month || null,
           end_year: body.end_year || null,
+          desc: body.desc || null,
           gpa: body.gpa || null,
         },
       ])

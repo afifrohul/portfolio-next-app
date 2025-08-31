@@ -1,30 +1,20 @@
 "use client";
 
+import Header from "@/components/header";
 import Preloader from "@/components/preloader";
 import SmoothCursor from "@/components/smooth-cursor";
-import Image from "next/image";
-import Link from "next/link";
 
 export default function Home() {
   return (
     <>
-      <SmoothCursor />
       <div>
-        <Preloader />
-        <div className="flex justify-center items-center w-full min-h-screen flex-col gap-2 bg-muted">
-          <div className="flex justify-center items-center gap-3">
-            <Image
-              src="https://etgcuhmmwxjmesnryxir.supabase.co/storage/v1/object/public/portfolio/profile.png"
-              width={28}
-              height={28}
-              alt="logo"
-            ></Image>
-            <Image src={"/afif.svg"} width={18} height={18} alt="logo"></Image>
-            <p className="italic">Afif Rohul</p>
+        {/* <Preloader /> */}
+        <div className="flex justify-center items-center w-full flex-col gap-2 bg-muted">
+          <div className="w-3xl ">
+            <div className="flex gap-6 items-center justify-between min-h-screen">
+              <Header></Header>
+            </div>
           </div>
-          <Link href="/login" className="text-xs italic">
-            Login
-          </Link>
         </div>
       </div>
     </>
