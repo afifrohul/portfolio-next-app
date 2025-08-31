@@ -1,8 +1,6 @@
 "use client";
 
-import Header from "@/components/header";
 import { TimelineExperience } from "@/components/timeline-experience";
-import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -44,7 +42,7 @@ export default function Experiences() {
         </div>
 
         {!loadingExperience && (
-          <h1 className="font-bold text-3xl text-center mb-4">
+          <h1 className="font-bold text-base lg:text-3xl text-center mb-4">
             Professional Experiences
           </h1>
         )}

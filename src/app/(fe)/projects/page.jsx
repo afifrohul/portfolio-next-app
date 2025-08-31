@@ -1,8 +1,6 @@
 "use client";
 
-import Header from "@/components/header";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import axios from "axios";
 import Image from "next/image";
@@ -44,7 +42,7 @@ export default function Projects() {
       </div>
 
       {!loadingProject && (
-        <h1 className="font-bold text-3xl text-center mb-4">
+        <h1 className="font-bold text-base lg:text-3xl text-center mb-4">
           Projects Showcase
         </h1>
       )}
@@ -78,8 +76,12 @@ export default function Projects() {
                 height={300}
               />
               <div className="p-2 flex flex-col gap-4 mt-2">
-                <h1 className="font-medium">{proj.title}</h1>
-                <p className=" text-muted-foreground">{proj.desc}</p>
+                <h1 className="text-sm lg:text-base font-medium">
+                  {proj.title}
+                </h1>
+                <p className=" text-xs lg:text-base text-muted-foreground">
+                  {proj.desc}
+                </p>
                 <div className="flex gap-2 flex-wrap">
                   {proj.project_skills.map((item, idx) => (
                     <div
@@ -97,7 +99,7 @@ export default function Projects() {
                     variant="outline"
                     className={"w-full hover:cursor-pointer"}
                   >
-                    View Project
+                    <p className="text-xs lg:text-base">View Project</p>
                   </Button>
                 </a>
               </div>

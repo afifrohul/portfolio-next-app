@@ -62,14 +62,14 @@ export default function About() {
 
   return (
     <div>
-      <div className="flex flex-col gap-2 justify-center py-6">
+      <div className="flex flex-col gap-2 justify-center py-2 lg:py-6">
         <div className="rounded-xl bg-gray-200 w-fit px-3 py-1">
           <p className="text-xs font-medium">About</p>
         </div>
 
         {!loadingAbout && (
-          <h1 className="font-bold text-3xl">
-            Passionate about developing impactful website
+          <h1 className="font-bold text-base lg:text-3xl">
+            Passionate about developing impactful websites
           </h1>
         )}
 
@@ -86,23 +86,24 @@ export default function About() {
             ) : (
               <>
                 {about.map((item) => (
-                  <p key={item.id} className="text-neutral-500">
+                  <p
+                    key={item.id}
+                    className="text-xs md:text-base text-neutral-500"
+                  >
                     {item.desc}
                   </p>
                 ))}
-                {/* <Button className="w-fit" size="sm"> */}
                 <a
                   href="/cv.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className=" flex items-center gap-2 w-fit"
                 >
-                  <Button className="hover:cursor-pointer">
-                    Download CV
+                  <Button className="hover:cursor-pointer" size="sm">
+                    <p className="text-xs md:text-sm">Download CV</p>
                     <ArrowDownToLineIcon className="h-4"></ArrowDownToLineIcon>
                   </Button>
                 </a>
-                {/* </Button> */}
               </>
             )}
           </div>
@@ -114,7 +115,7 @@ export default function About() {
         </div>
 
         {!loadingEducation && (
-          <h1 className="font-bold text-3xl text-center mb-4">
+          <h1 className="font-bold text-base lg:text-3xl text-center mb-2 lg:mb-4">
             Academic Journey
           </h1>
         )}
