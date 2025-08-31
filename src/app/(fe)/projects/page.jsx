@@ -48,7 +48,7 @@ export default function Projects() {
       )}
 
       {loadingProject ? (
-        <div className="grid grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div className="flex flex-col gap-2 w-full justify-center">
             <Skeleton className="h-48 w-[100%]" />
             <Skeleton className="h-4 w-[100%]" />
@@ -75,7 +75,7 @@ export default function Projects() {
                 width={500}
                 height={300}
               />
-              <div className="p-2 flex flex-col gap-4 mt-2">
+              <div className="p-2 flex flex-col gap-3 lg:gap-4 mt-2">
                 <h1 className="text-sm lg:text-base font-medium">
                   {proj.title}
                 </h1>
