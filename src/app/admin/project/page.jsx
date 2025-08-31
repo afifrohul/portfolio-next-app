@@ -21,6 +21,7 @@ import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
 import MultiSelect from "@/components/multi-select";
 import axios from "axios";
+import Image from "next/image";
 
 export default function Project() {
   const [project, setProject] = useState([]);
@@ -118,6 +119,21 @@ export default function Project() {
         1 +
         table.getState().pagination.pageIndex *
           table.getState().pagination.pageSize,
+    },
+    {
+      accessorKey: "image",
+      header: "Image",
+      cell: ({ row }) => (
+        <div className="flex gap-2">
+          <Image
+            src={row.original.image}
+            alt="project"
+            className="object-cover rounded"
+            width={64}
+            height={64}
+          />
+        </div>
+      ),
     },
     {
       accessorKey: "title",
