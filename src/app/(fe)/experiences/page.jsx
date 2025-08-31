@@ -37,24 +37,20 @@ export default function Experiences() {
   }, []);
 
   return (
-    <div className="flex justify-center items-center w-full flex-col gap-2">
-      <div className="w-3xl flex flex-col gap-8 min-h-screen">
-        <div className="flex gap-6 items-center justify-between pt-8">
-          <Header />
+    <>
+      <div className="flex flex-col gap-2 justify-center py-6">
+        <div className="rounded-xl bg-gray-200 w-fit px-3 py-1 mx-auto">
+          <p className="text-xs font-medium">Experience</p>
         </div>
-        <Separator />
-        <div className="flex flex-col gap-2 justify-center py-6">
-          <div className="rounded-xl bg-gray-200 w-fit px-3 py-1 mx-auto">
-            <p className="text-xs font-medium">Experience</p>
-          </div>
 
-          {!loadingExperience && (
-            <h1 className="font-bold text-3xl text-center mb-4">
-              Professional Experiences
-            </h1>
-          )}
+        {!loadingExperience && (
+          <h1 className="font-bold text-3xl text-center mb-4">
+            Professional Experiences
+          </h1>
+        )}
 
-          {loadingExperience ? (
+        {loadingExperience ? (
+          <div className="space-y-4">
             <div className="flex flex-col gap-2 w-full">
               <Skeleton className="h-8 w-[80%]" />
               <Skeleton className="h-4 w-[80%]" />
@@ -62,11 +58,25 @@ export default function Experiences() {
               <Skeleton className="h-4 w-[90%]" />
               <Skeleton className="h-4 w-[90%]" />
             </div>
-          ) : (
-            <TimelineExperience timelineData={experience} />
-          )}
-        </div>
+            <div className="flex flex-col gap-2 w-full">
+              <Skeleton className="h-8 w-[80%]" />
+              <Skeleton className="h-4 w-[80%]" />
+              <Skeleton className="h-4 w-[60%]" />
+              <Skeleton className="h-4 w-[90%]" />
+              <Skeleton className="h-4 w-[90%]" />
+            </div>
+            <div className="flex flex-col gap-2 w-full">
+              <Skeleton className="h-8 w-[80%]" />
+              <Skeleton className="h-4 w-[80%]" />
+              <Skeleton className="h-4 w-[60%]" />
+              <Skeleton className="h-4 w-[90%]" />
+              <Skeleton className="h-4 w-[90%]" />
+            </div>
+          </div>
+        ) : (
+          <TimelineExperience timelineData={experience} />
+        )}
       </div>
-    </div>
+    </>
   );
 }
