@@ -5,7 +5,10 @@ export async function GET() {
   try {
     const supabase = await createClient();
 
-    const { data, error } = await supabase.from("educations").select("*");
+    const { data, error } = await supabase
+      .from("educations")
+      .select("*")
+      .order("created_at", { ascending: false });
 
     if (error) throw error;
 

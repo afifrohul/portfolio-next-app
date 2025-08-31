@@ -9,7 +9,7 @@ export default function Home() {
     <>
       <div>
         {/* <Preloader /> */}
-        <div className="flex justify-center items-center w-full flex-col gap-2 bg-muted">
+        <div className="flex justify-center items-center w-full flex-col gap-2">
           <div className="w-3xl ">
             <div className="flex gap-6 items-center justify-between min-h-screen">
               <Header></Header>

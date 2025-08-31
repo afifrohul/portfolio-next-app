@@ -60,17 +60,8 @@ export default function About() {
     fetchEducation();
   }, []);
 
-  const timelineData = [
-    {
-      date: "1956",
-      title: "The Birth of AI",
-      content:
-        "The term 'Artificial Intelligence' was coined at the Dartmouth Conference, marking the official beginning of AI as a field. John McCarthy, Marvin Minsky, Nathaniel Rochester, and Claude Shannon organized this seminal event, setting the stage for decades of research and development.",
-    },
-  ];
-
   return (
-    <div className="flex justify-center items-center w-full flex-col gap-2 bg-muted">
+    <div className="flex justify-center items-center w-full flex-col gap-2">
       <div className="w-3xl flex flex-col gap-8 min-h-screen">
         <div className="flex gap-6 items-center justify-between pt-8">
           <Header />
@@ -115,7 +106,7 @@ export default function About() {
           </div>
 
           {!loadingEducation && (
-            <h1 className="font-bold text-3xl text-center">Academic Journey</h1>
+            <h1 className="font-bold text-3xl text-center mb-4">Academic Journey</h1>
           )}
 
           {loadingEducation ? (

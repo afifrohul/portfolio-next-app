@@ -32,6 +32,7 @@ export default function Project() {
     id: null,
     title: "",
     desc: "",
+    link: "",
     project_skills: [],
   });
 
@@ -87,7 +88,13 @@ export default function Project() {
 
       toast.success(res.data.message || "Data saved successfully");
       setOpen(false);
-      setFormData({ id: null, title: "", desc: "", project_skills: [] });
+      setFormData({
+        id: null,
+        title: "",
+        desc: "",
+        link: "",
+        project_skills: [],
+      });
     } catch (err) {
       toast.error(err.message || "An error occurred while saving data");
       console.error("Submit error:", err);
@@ -163,6 +170,15 @@ export default function Project() {
 
         return skillNames.join(", ");
       },
+    },
+    {
+      accessorKey: "link",
+      header: "Link",
+      cell: (info) => (
+        <a href={info.getValue()} target="_blank" rel="noopener noreferrer">
+          {info.getValue()}
+        </a>
+      ),
     },
     {
       id: "actions",
@@ -271,6 +287,16 @@ export default function Project() {
                 selected={formData.project_skills}
                 onChange={(value) =>
                   setFormData({ ...formData, project_skills: value })
+                }
+              />
+            </div>
+            <div className="space-y-2">
+              <Label>Link</Label>
+              <Input
+                value={formData.link}
+                placeholder="Enter project link"
+                onChange={(e) =>
+                  setFormData({ ...formData, link: e.target.value })
                 }
               />
             </div>

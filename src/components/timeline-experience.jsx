@@ -1,9 +1,13 @@
 import * as React from "react";
 
 import { Separator } from "@/components/ui/separator";
-import { BookTextIcon, CalendarDaysIcon, SchoolIcon } from "lucide-react";
+import {
+  CalendarDaysIcon,
+  SchoolIcon,
+  UserIcon,
+} from "lucide-react";
 
-const TimelineEducation = ({ timelineData }) => {
+const TimelineExperience = ({ timelineData }) => {
   return (
     <section className="">
       <div className="container">
@@ -28,8 +32,8 @@ const TimelineEducation = ({ timelineData }) => {
               </div>
               <div className="space-y-2">
                 <div className="flex gap-2 items-center">
-                  <BookTextIcon className="h-4 text-muted-foreground"></BookTextIcon>
-                  <p className="text-muted-foreground">{entry.department}</p>
+                  <UserIcon className="h-4 text-muted-foreground"></UserIcon>
+                  <p className="text-muted-foreground">{entry.role}</p>
                 </div>
                 <div className="flex gap-2 items-center">
                   <CalendarDaysIcon className="h-4 text-muted-foreground"></CalendarDaysIcon>
@@ -50,4 +54,4 @@ const TimelineEducation = ({ timelineData }) => {
   );
 };
 
-export { TimelineEducation };
+export { TimelineExperience };

@@ -2,8 +2,18 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
+  const pathname = usePathname();
+
+  const navItems = [
+    { href: "/", label: "home", icon: "/afif.svg" },
+    { href: "/about", label: "about" },
+    { href: "/experiences", label: "experiences" },
+    { href: "/projects", label: "projects" },
+  ];
+
   return (
     <>
       <div className="flex flex-col gap-6">
@@ -11,33 +21,25 @@ export default function Header() {
           <h1 className="font-bold text-6xl font-serif">portfolio.</h1>
         </div>
         <div className="flex items-center gap-3">
-          <Link href="/">
-            <Image src={"/afif.svg"} width={14} height={14} alt="logo" />
-          </Link>
-          <Link
-            href="/about"
-            className="text font-light text-neutral-500 hover:underline transition-all duration-500"
-          >
-            about
-          </Link>
-          {/* <Link
-            href="/educations"
-            className="text font-light text-neutral-500 hover:underline transition-all duration-500"
-          >
-            educations
-          </Link> */}
-          <Link
-            href="/experiences"
-            className="text font-light text-neutral-500 hover:underline transition-all duration-500"
-          >
-            experiences
-          </Link>
-          <Link
-            href="/projects"
-            className="text font-light text-neutral-500 hover:underline transition-all duration-500"
-          >
-            projects
-          </Link>
+          {navItems.map((item) =>
+            item.icon ? (
+              <Link key={item.href} href={item.href}>
+                <Image src={item.icon} width={14} height={14} alt="logo" />
+              </Link>
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`text font-light transition-all duration-500 hover:underline ${
+                  pathname === item.href
+                    ? "underline text-black"
+                    : "text-neutral-500"
+                }`}
+              >
+                {item.label}
+              </Link>
+            )
+          )}
         </div>
       </div>
       <div>

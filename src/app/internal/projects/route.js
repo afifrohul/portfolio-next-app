@@ -38,6 +38,7 @@ export async function POST(req) {
         {
           title: body.title,
           desc: body.desc,
+          link: body.link,
           image: null,
         },
       ])
