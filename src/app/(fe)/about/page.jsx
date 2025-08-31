@@ -77,7 +77,7 @@ export default function About() {
           <div className="flex flex-col gap-3">
             {loadingAbout ? (
               <div className="flex flex-col gap-2 w-full">
-                <Skeleton className="h-8 w-[80%]" />
+                <Skeleton className="h-8 w-[100%]" />
                 <Skeleton className="h-4 w-[80%]" />
                 <Skeleton className="h-4 w-[60%]" />
                 <Skeleton className="h-4 w-[90%]" />
