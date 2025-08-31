@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <>
       <div>
-        {/* <Preloader /> */}
+        <Preloader />
         <div className="flex justify-center items-center w-full flex-col gap-2">
           <div className="w-3xl ">
             <div className="flex gap-6 items-center justify-between min-h-screen">
