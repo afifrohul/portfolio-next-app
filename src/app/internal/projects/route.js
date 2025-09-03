@@ -30,16 +30,51 @@ export async function GET() {
 export async function POST(req) {
   try {
     const supabase = await createClient();
-    const body = await req.json();
+    const formData = await req.formData();
+
+    const file = formData.get("file");
+    if (!file) {
+      return NextResponse.json(
+        { success: false, message: "File is required" },
+        { status: 400 }
+      );
+    }
+
+    const title = formData.get("title");
+    const desc = formData.get("desc");
+    const link = formData.get("link");
+    const skillsRaw = formData.get("project_skills");
+    const project_skills = skillsRaw ? JSON.parse(skillsRaw) : [];
+
+    const randomStr = Math.random().toString(36).substring(2, 8);
+    const fileName = `${Date.now()}-${randomStr}`;
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from("portfolio")
+      .upload(`project/${fileName}`, file, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+
+    if (uploadError) {
+      console.error(uploadError);
+      return NextResponse.json(
+        { success: false, message: uploadError.message },
+        { status: 500 }
+      );
+    }
+
+    const { data: publicUrlData } = supabase.storage
+      .from("portfolio")
+      .getPublicUrl(`project/${fileName}`);
 
     const { data: project, error: projectError } = await supabase
       .from("projects")
       .insert([
         {
-          title: body.title,
-          desc: body.desc,
-          link: body.link,
-          image: null,
+          title,
+          desc,
+          link,
+          image: publicUrlData.publicUrl,
         },
       ])
       .select()
@@ -53,10 +88,10 @@ export async function POST(req) {
       );
     }
 
-    if (body.project_skills && body.project_skills.length > 0) {
-      const pivotInserts = body.project_skills.map((skill_id) => ({
+    if (project_skills.length > 0) {
+      const pivotInserts = project_skills.map((skill_id) => ({
         project_id: project.id,
-        skill_id: skill_id,
+        skill_id,
       }));
 
       const { error: pivotError } = await supabase
@@ -95,8 +130,6 @@ export async function POST(req) {
         { status: 500 }
       );
     }
-
-    console.log(projectWithSkills);
 
     return NextResponse.json(
       { success: true, message: "Created successfully", projectWithSkills },

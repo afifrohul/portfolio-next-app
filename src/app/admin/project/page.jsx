@@ -33,6 +33,7 @@ export default function Project() {
     title: "",
     desc: "",
     link: "",
+    image: "",
     project_skills: [],
   });
 
@@ -65,11 +66,25 @@ export default function Project() {
 
   const handleSubmit = async () => {
     try {
+      const form = new FormData();
+      if (formData.image instanceof File) {
+        form.append("file", formData.image);
+      }
+
+      form.append("title", formData.title);
+      form.append("desc", formData.desc);
+      form.append("link", formData.link);
+      form.append("project_skills", JSON.stringify(formData.project_skills));
+
       let res;
       if (mode === "create") {
-        res = await axios.post("/internal/projects", formData);
+        res = await axios.post("/internal/projects", form, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
       } else {
-        res = await axios.put(`/internal/projects/${formData.id}`, formData);
+        res = await axios.put(`/internal/projects/${formData.id}`, form, {
+          headers: { "Content-Type": "multipart/form-data" },
+        });
       }
 
       if (!res.data.success) {
@@ -230,6 +245,9 @@ export default function Project() {
                     id: null,
                     title: "",
                     desc: "",
+                    image: "",
+                    link: "",
+                    project_skills: [],
                   });
                   setOpen(true);
                 }}
@@ -268,7 +286,13 @@ export default function Project() {
             </div>
             <div className="grid w-full items-center gap-3">
               <Label htmlFor="picture">Image</Label>
-              <Input id="picture" type="file" />
+              <Input
+                id="picture"
+                type="file"
+                onChange={(e) =>
+                  setFormData({ ...formData, image: e.target.files[0] })
+                }
+              />
             </div>
             <div className="space-y-2 w-full">
               <Label>Description</Label>

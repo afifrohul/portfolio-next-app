@@ -32,7 +32,8 @@ export async function POST(req) {
       );
     }
 
-    const fileName = `${Date.now()}-${file.name}`;
+    const randomStr = Math.random().toString(36).substring(2, 8);
+    const fileName = `${Date.now()}-${randomStr}`;
     const { data: uploadData, error: uploadError } = await supabase.storage
       .from("portfolio")
       .upload(`profile/${fileName}`, file, {

@@ -9,7 +9,7 @@ function extractFilePath(publicUrl) {
 
 export async function PUT(req, { params }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     if (!id) {
       return NextResponse.json(
         { success: false, message: "ID is required" },
@@ -45,7 +45,8 @@ export async function PUT(req, { params }) {
         }
       }
 
-      const fileName = `${Date.now()}-${file.name}`;
+      const randomStr = Math.random().toString(36).substring(2, 8);
+      const fileName = `${Date.now()}-${randomStr}`;
       const { error: uploadError } = await supabase.storage
         .from("portfolio")
         .upload(`profile/${fileName}`, file, {
@@ -99,8 +100,11 @@ export async function PUT(req, { params }) {
 }
 
 export async function DELETE(req, { params }) {
+  const supabase = await createClient();
+
   try {
-    const { id } = params;
+    const { id } = await params;
+
     if (!id) {
       return NextResponse.json(
         { success: false, message: "ID is required" },
@@ -108,45 +112,63 @@ export async function DELETE(req, { params }) {
       );
     }
 
-    const supabase = await createClient();
-
-    const { data: oldImage, error: fetchError } = await supabase
+    // Ambil data lama untuk dapatkan path file
+    const { data: existing, error: fetchError } = await supabase
       .from("images")
-      .select("src")
+      .select("id, src")
       .eq("id", id)
       .single();
 
-    if (fetchError) {
-      console.error(fetchError);
+    if (fetchError || !existing) {
       return NextResponse.json(
-        { success: false, message: fetchError.message },
-        { status: 500 }
+        { success: false, message: "Data not found" },
+        { status: 404 }
       );
     }
 
-    if (oldImage?.src) {
-      const oldPath = extractFilePath(oldImage.src);
-      if (oldPath) {
-        await supabase.storage.from("portfolio").remove([oldPath]);
+    const { error: deleteError, count } = await supabase
+      .from("images")
+      .delete({ count: "exact" })
+      .eq("id", id);
+
+    if (deleteError) {
+      console.error("Supabase error:", deleteError.message);
+      return NextResponse.json(
+        { success: false, message: deleteError.message },
+        { status: 400 }
+      );
+    }
+
+    if (count === 0) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "You don't have permission to delete this item",
+        },
+        { status: 403 }
+      );
+    }
+
+    // Jika ada gambar, hapus dari storage
+    if (existing.src) {
+      const pathToRemove = existing.src.split("portfolio/")[1];
+      if (pathToRemove) {
+        const { error: removeError } = await supabase.storage
+          .from("portfolio")
+          .remove([pathToRemove]);
+
+        if (removeError) {
+          console.error("Supabase storage remove error:", removeError.message);
+        }
       }
     }
 
-    const { error } = await supabase.from("images").delete().eq("id", id);
-
-    if (error) {
-      console.error(error);
-      return NextResponse.json(
-        { success: false, message: error.message },
-        { status: 500 }
-      );
-    }
-
     return NextResponse.json(
-      { success: true, message: "Profile deleted" },
+      { success: true, message: "Deleted successfully" },
       { status: 200 }
     );
   } catch (err) {
-    console.error(err);
+    console.error("Server error:", err);
     return NextResponse.json(
       { success: false, message: "Internal Server Error" },
       { status: 500 }
