@@ -5,7 +5,10 @@ export async function GET() {
   try {
     const supabase = await createClient();
 
-    const { data, error } = await supabase.from("projects").select(`
+    const { data, error } = await supabase
+      .from("projects")
+      .select(
+        `
       *,
       project_skills (
         skill:skills (
@@ -13,7 +16,9 @@ export async function GET() {
           name
         )
       )
-    `);
+    `
+      )
+      .order("created_at", { ascending: false });
 
     if (error) throw error;
 
