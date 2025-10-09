@@ -29,11 +29,13 @@ import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
 import axios from "axios";
+import LoaderButton from "@/components/loader-button";
 
 export default function Experience() {
   const [experience, setExperience] = useState([]);
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState("create");
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     id: null,
     company: "",
@@ -69,6 +71,7 @@ export default function Experience() {
   }, []);
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
       let res;
       if (mode === "create") {
@@ -106,6 +109,8 @@ export default function Experience() {
     } catch (err) {
       toast.error(err.message || "An error occurred while saving data");
       console.error("Submit error:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -379,12 +384,21 @@ export default function Experience() {
           </div>
 
           <DialogFooter>
-            <Button variant="outline" onClick={() => setOpen(false)}>
+            <Button
+              variant="outline"
+              onClick={() => setOpen(false)}
+              disabled={loading}
+            >
               Cancel
             </Button>
-            <Button onClick={handleSubmit}>
-              {mode === "create" ? "Create" : "Save Changes"}
-            </Button>
+
+            {!loading ? (
+              <Button onClick={handleSubmit}>
+                {mode === "create" ? "Create" : "Save Changes"}
+              </Button>
+            ) : (
+              <LoaderButton />
+            )}
           </DialogFooter>
         </DialogContent>
       </Dialog>

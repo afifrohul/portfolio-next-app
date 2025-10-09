@@ -29,8 +29,10 @@ import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import axios from "axios";
 import { Textarea } from "@/components/ui/textarea";
+import LoaderButton from "@/components/loader-button";
 
 export default function Education() {
+  const [loading, setLoading] = useState(false);
   const [education, setEducation] = useState([]);
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState("create");
@@ -71,6 +73,7 @@ export default function Education() {
   }, []);
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
       let res;
       if (mode === "create") {
@@ -109,6 +112,8 @@ export default function Education() {
     } catch (err) {
       toast.error(err.message || "An error occurred while saving data");
       console.error("Submit error:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -414,9 +419,13 @@ export default function Education() {
             <Button variant="outline" onClick={() => setOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={handleSubmit}>
-              {mode === "create" ? "Create" : "Save Changes"}
-            </Button>
+            {!loading ? (
+              <Button onClick={handleSubmit}>
+                {mode === "create" ? "Create" : "Save Changes"}
+              </Button>
+            ) : (
+              <LoaderButton />
+            )}
           </DialogFooter>
         </DialogContent>
       </Dialog>

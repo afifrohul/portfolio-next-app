@@ -22,8 +22,10 @@ import { Textarea } from "@/components/ui/textarea";
 import MultiSelect from "@/components/multi-select";
 import axios from "axios";
 import Image from "next/image";
+import LoaderButton from "@/components/loader-button";
 
 export default function Project() {
+  const [loading, setLoading] = useState(false);
   const [project, setProject] = useState([]);
   const [skill, setSkill] = useState([]);
   const [open, setOpen] = useState(false);
@@ -36,8 +38,6 @@ export default function Project() {
     image: "",
     project_skills: [],
   });
-
-  // console.log(project);
 
   useEffect(() => {
     async function fetchProjectSkill() {
@@ -65,6 +65,7 @@ export default function Project() {
   }, []);
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
       const form = new FormData();
       if (formData.image instanceof File) {
@@ -113,6 +114,8 @@ export default function Project() {
     } catch (err) {
       toast.error(err.message || "An error occurred while saving data");
       console.error("Submit error:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -330,9 +333,13 @@ export default function Project() {
             <Button variant="outline" onClick={() => setOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={handleSubmit}>
-              {mode === "create" ? "Create" : "Save Changes"}
-            </Button>
+            {!loading ? (
+              <Button onClick={handleSubmit}>
+                {mode === "create" ? "Create" : "Save Changes"}
+              </Button>
+            ) : (
+              <LoaderButton />
+            )}
           </DialogFooter>
         </DialogContent>
       </Dialog>

@@ -19,8 +19,10 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
 import axios from "axios";
+import LoaderButton from "@/components/loader-button";
 
 export default function Skill() {
+  const [loading, setLoading] = useState(false);
   const [skill, setSkill] = useState([]);
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState("create");
@@ -53,6 +55,7 @@ export default function Skill() {
   }, []);
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
       let res;
       if (mode === "create") {
@@ -81,6 +84,8 @@ export default function Skill() {
     } catch (err) {
       toast.error(err.message || "An error occurred while saving data");
       console.error("Submit error:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -201,9 +206,13 @@ export default function Skill() {
             <Button variant="outline" onClick={() => setOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={handleSubmit}>
-              {mode === "create" ? "Create" : "Save Changes"}
-            </Button>
+            {!loading ? (
+              <Button onClick={handleSubmit}>
+                {mode === "create" ? "Create" : "Save Changes"}
+              </Button>
+            ) : (
+              <LoaderButton />
+            )}
           </DialogFooter>
         </DialogContent>
       </Dialog>

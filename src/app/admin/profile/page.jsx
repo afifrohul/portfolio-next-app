@@ -20,8 +20,10 @@ import axios from "axios";
 import Image from "next/image";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import LoaderButton from "@/components/loader-button";
 
 export default function Profile() {
+  const [loading, setLoading] = useState(false);
   const [profile, setProfile] = useState([]);
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState("create");
@@ -51,6 +53,7 @@ export default function Profile() {
   }, []);
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
       const form = new FormData();
       if (formData.src instanceof File) {
@@ -83,6 +86,8 @@ export default function Profile() {
     } catch (err) {
       toast.error(err.message || "Failed to save profile");
       console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -212,9 +217,13 @@ export default function Profile() {
             <Button variant="outline" onClick={() => setOpen(false)}>
               Cancel
             </Button>
-            <Button onClick={handleSubmit}>
-              {mode === "create" ? "Create" : "Save Changes"}
-            </Button>
+            {!loading ? (
+              <Button onClick={handleSubmit}>
+                {mode === "create" ? "Create" : "Save Changes"}
+              </Button>
+            ) : (
+              <LoaderButton />
+            )}
           </DialogFooter>
         </DialogContent>
       </Dialog>

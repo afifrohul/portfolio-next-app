@@ -69,7 +69,7 @@ export default function About() {
 
         {!loadingAbout && (
           <h1 className="font-bold text-base lg:text-3xl">
-            Passionate about developing impactful websites
+            Hi, My name is Afif Rohul Abrori
           </h1>
         )}
 
