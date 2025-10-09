@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import NextTopLoader from "nextjs-toploader";
+import Footer from "@/components/footer";
 
 export default async function AdminLayout({ children }) {
   const supabase = await createClient();
@@ -35,9 +36,10 @@ export default async function AdminLayout({ children }) {
   return (
     <SidebarProvider>
       <AppSidebar user={userWithProfile} />
-      <main className="w-full h-full">
+      <main className="w-full min-h-screen flex flex-col justify-between">
         <NextTopLoader color="#64748b" />
         <div>{children}</div>
+        <Footer />
       </main>
     </SidebarProvider>
   );

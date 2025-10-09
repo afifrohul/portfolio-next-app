@@ -72,7 +72,7 @@ export default function Header() {
                 href={item.href}
                 className={`text-xs lg:text-base font-light transition-all duration-500 hover:underline ${
                   pathname === item.href
-                    ? "underline text-black"
+                    ? "underline italic text-black"
                     : "text-neutral-500"
                 }`}
               >
