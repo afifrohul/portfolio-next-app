@@ -139,11 +139,7 @@ export default function Project() {
     {
       id: "index",
       header: "#",
-      cell: ({ row, table }) =>
-        row.index +
-        1 +
-        table.getState().pagination.pageIndex *
-          table.getState().pagination.pageSize,
+      cell: ({ row }) => Number(row.id) + 1,
     },
     {
       accessorKey: "image",
