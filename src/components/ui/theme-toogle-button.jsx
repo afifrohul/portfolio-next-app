@@ -109,7 +109,7 @@ const ThemeToggleButton = ({
   return (
     <div
       onClick={handleClick}
-      className="relative flex p-1 cursor-pointer items-center justify-center rounded-full bg-background hover:bg-accent hover:text-accent-foreground transition-all"
+      className="relative flex p-0.5 cursor-pointer items-center justify-center rounded-full  hover:bg-accent hover:text-accent-foreground transition-all"
     >
       <Sun className="h-4 w-4 transition-all scale-100 rotate-0 dark:scale-0 dark:-rotate-90" />
       <Moon className="absolute h-4 w-4 transition-all scale-0 rotate-90 dark:scale-100 dark:rotate-0" />
