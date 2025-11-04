@@ -40,7 +40,7 @@ export default function About() {
                   </div>
                   <div className="border p-1 lg:p-2 rounded-full">
                     <Image
-                      src={profile}
+                      src={profile[0].src}
                       width={64}
                       height={64}
                       alt="logo"

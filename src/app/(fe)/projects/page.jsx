@@ -10,6 +10,8 @@ import { FaGithub } from "react-icons/fa";
 export default function Projects() {
   const { project, loading: loadingProject } = useProject();
 
+  console.log(project);
+
   return (
     <div>
       <div className="flex flex-col gap-2 justify-center py-2 lg:py-6">

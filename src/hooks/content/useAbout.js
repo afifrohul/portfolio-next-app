@@ -1,29 +1,22 @@
-import { useEffect, useState } from "react";
 import axios from "axios";
+import useSWR from "swr";
+
+const fetcher = (url) => axios.get(url).then((res) => res.data);
 
 export default function useAbout() {
-  const [about, setAbout] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    async function fetchAbout() {
-      try {
-        const res = await axios.get("/internal/abouts");
-        if (isMounted) setAbout(res.data);
-      } catch (err) {
-        console.error("Error fetching about:", err);
-      } finally {
-        if (isMounted) setLoading(false);
-      }
+  const { data, error, isLoading, mutate } = useSWR(
+    "/internal/abouts",
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
     }
+  );
 
-    fetchAbout();
-    return () => {
-      isMounted = false;
-    };
-  }, []);
-
-  return { about, loading };
+  return {
+    about: data || [],
+    loading: isLoading,
+    error,
+    mutate,
+  };
 }

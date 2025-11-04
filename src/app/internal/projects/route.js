@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { cache } from "react";
 
-export async function GET() {
-  try {
-    const supabase = await createClient();
+const getProjects = cache(async () => {
+  const supabase = await createClient();
 
-    const { data, error } = await supabase
-      .from("projects")
-      .select(
-        `
+  const { data, error } = await supabase
+    .from("projects")
+    .select(
+      `
       *,
       project_skills (
         skill:skills (
@@ -18,11 +18,17 @@ export async function GET() {
         )
       )
     `
-      )
-      .order("year", { ascending: false });
+    )
+    .order("year", { ascending: false });
 
-    if (error) throw error;
+  if (error) throw error;
 
+  return data ?? [];
+});
+
+export async function GET() {
+  try {
+    const data = await getProjects();
     return NextResponse.json(data ?? []);
   } catch (err) {
     console.error("Server error:", err);
