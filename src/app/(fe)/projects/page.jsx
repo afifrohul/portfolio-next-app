@@ -85,6 +85,11 @@ export default function Projects() {
                       <Skeleton className="w-full h-2 rounded-sm" />
                       <Skeleton className="w-[250px] h-2 rounded-sm" />
                     </div>
+                    <div className="flex gap-4 items-center my-4">
+                      <Skeleton className="w-5 h-5 rounded-sm" />
+                      <Skeleton className="w-5 h-5 rounded-sm" />
+                      <Skeleton className="w-5 h-5 rounded-sm" />
+                    </div>
                     <Skeleton className="w-[120px] h-8 rounded-sm" />
                   </div>
                   <div className="rounded">
@@ -99,6 +104,11 @@ export default function Projects() {
                       <Skeleton className="w-full h-2 rounded-sm" />
                       <Skeleton className="w-full h-2 rounded-sm" />
                       <Skeleton className="w-[250px] h-2 rounded-sm" />
+                    </div>
+                    <div className="flex gap-4 items-center my-4">
+                      <Skeleton className="w-5 h-5 rounded-sm" />
+                      <Skeleton className="w-5 h-5 rounded-sm" />
+                      <Skeleton className="w-5 h-5 rounded-sm" />
                     </div>
                     <Skeleton className="w-[120px] h-8 rounded-sm" />
                   </div>
@@ -125,7 +135,6 @@ export default function Projects() {
                         </p>
                         <div className="flex gap-4 items-center mt-4">
                           {item.project_skills.map((ps, index) => (
-                            // <p key={index}>{ps.skill.name}</p>
                             <Image
                               key={index}
                               src={ps.skill.icon}
