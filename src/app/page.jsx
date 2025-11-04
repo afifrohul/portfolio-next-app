@@ -38,13 +38,13 @@ export default function Home() {
           <div className="w-4xl border-x-1 mx-auto">
             <div className="w-full min-h-screen flex justify-center items-center">
               <div>
-                <p className="italic">/port·fow·lee·ew/</p>
-                <h1 className={`text-8xl font-medium font-serif`}>
+                <p className="text-xs md:text-base italic">/port·fow·lee·ew/</p>
+                <h1 className={`text-5xl md:text-7xl lg:text-8xl font-medium font-serif`}>
                   portfolio.
                 </h1>
-                <div className="mt-8 flex justify-between items-center font-mono">
+                <div className="mt-3 md:mt-6 lg:mt-8 flex justify-between items-center font-mono">
                   {/* <p className="">afif rohul abrori</p> */}
-                  <p className="italic">web developer</p>
+                  <p className="text-xs md:text-base italic">web developer</p>
                 </div>
               </div>
             </div>

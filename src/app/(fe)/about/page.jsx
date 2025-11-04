@@ -100,28 +100,28 @@ export default function About() {
           <div className="flex flex-col items-center justify-center gap-8">
             {loadingProfile ? (
               <div className="flex gap-4">
-                <Skeleton className="w-12 h-12 sm:w-24 sm:h-24 md:w-20 md:h-20 rounded-full" />
-                <Skeleton className="w-12 h-12 sm:w-24 sm:h-24 md:w-20 md:h-20 rounded-full" />
+                <Skeleton className="w-14 h-14 rounded-full" />
+                <Skeleton className="w-14 h-14 rounded-full" />
               </div>
             ) : (
               profile && (
                 <div className="flex gap-4">
-                  <div className="border p-4 rounded-full">
+                  <div className="border p-2 lg:p-4 rounded-full">
                     <Image
                       src={theme === "dark" ? "/afif-light.svg" : "/afif.svg"}
-                      width={14}
-                      height={14}
+                      width={240}
+                      height={240}
                       alt="logo"
-                      className="w-3 h-3 md:w-12 md:h-12"
+                      className=" w-14 lg:w-12 h-12"
                     />
                   </div>
-                  <div className="border p-2 rounded-full">
+                  <div className="border p-1 lg:p-2 rounded-full">
                     <Image
                       src={profile}
                       width={64}
                       height={64}
                       alt="logo"
-                      className="w-3 h-3 md:w-16 md:h-16"
+                      className="w-16 h-16"
                     />
                   </div>
                 </div>
@@ -129,19 +129,19 @@ export default function About() {
             )}
             {loadingAbout ? (
               <div className="mx-auto space-y-5">
-                <Skeleton className="w-xl h-12 mx-auto" />
+                <Skeleton className="w-full md:w-lg h-6 md:h-8 lg:h-12 mx-auto" />
                 <div className="mt-4 space-y-2">
-                  <Skeleton className="w-[672px] h-3 mx-auto" />
-                  <Skeleton className="w-[700px] h-3 mx-auto" />
-                  <Skeleton className="w-[690px] h-3 mx-auto" />
-                  <Skeleton className="w-[651px] h-3 mx-auto" />
-                  <Skeleton className="w-[688px] h-3 mx-auto" />
-                  <Skeleton className="w-[500px] h-3 mx-auto" />
-                  <Skeleton className="w-[300px] h-3 mx-auto" />
+                  <Skeleton className="w-[270px] md:w-[672px] h-3 mx-auto" />
+                  <Skeleton className="w-[260px] md:w-[700px] h-3 mx-auto" />
+                  <Skeleton className="w-[230px] md:w-[690px] h-3 mx-auto" />
+                  <Skeleton className="w-[250px] md:w-[651px] h-3 mx-auto" />
+                  <Skeleton className="w-[240px] md:w-[688px] h-3 mx-auto" />
+                  <Skeleton className="w-[255px] md:w-[500px] h-3 mx-auto" />
+                  <Skeleton className="w-[266px] md:w-[300px] h-3 mx-auto" />
                 </div>
-                <div className="flex gap-4 justify-center items-center">
-                  <Skeleton className="w-[150px] h-8" />
-                  <Skeleton className="w-[150px] h-8" />
+                <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
+                  <Skeleton className="w-[75px] md:w-[150px] h-8" />
+                  <Skeleton className="w-[75px] md:w-[150px] h-8" />
                 </div>
                 <div className="flex gap-4 justify-center items-center">
                   <Skeleton className="w-4 h-4 rounded-xs" />
@@ -152,22 +152,21 @@ export default function About() {
               </div>
             ) : (
               about && (
-                <div className="space-y-5">
-                  <div className="text-5xl font-bold">
+                <div className="space-y-3 lg:space-y-5">
+                  <div className="text-2xl lg:text-5xl font-bold">
                     <h1 className="text-center">Hi, I'm Afif Rohul Abrori</h1>
-                    {/* <h1 className="text-center">Website Developer</h1> */}
                   </div>
                   <div>
                     {about.map((item, index) => (
                       <p
                         key={index}
-                        className="text-center text-neutral-600 dark:text-neutral-300 max-w-2xl"
+                        className="text-xs md:text-sm lg:text-base text-center text-neutral-600 dark:text-neutral-300 max-w-2xl"
                       >
                         {item.desc}
                       </p>
                     ))}
                   </div>
-                  <div className="flex justify-center items-center gap-4">
+                  <div className="flex flex-col md:flex-row justify-center items-center gap-2 lg:gap-4">
                     <a
                       href="/cv.pdf"
                       target="_blank"
@@ -184,7 +183,7 @@ export default function About() {
                         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
                         <span className="relative inline-flex size-2 rounded-full bg-green-500"></span>
                       </span>
-                      <p className="text-sm font-medium text-green-500">
+                      <p className="text-xs md:text-sm font-medium text-green-500">
                         Available for new projects
                       </p>
                     </div>
@@ -249,38 +248,38 @@ export default function About() {
               <div className="space-y-6 border-l-2 pl-4">
                 <div className="space-y-2">
                   <Skeleton className="w-full h-3" />
-                  <Skeleton className="w-[340px] h-3" />
+                  <Skeleton className="w-[200px] md:w-[340px] h-3" />
                   <Skeleton className="w-full h-2" />
                   <Skeleton className="w-full h-2" />
-                  <Skeleton className="w-[400px] h-2" />
+                  <Skeleton className="w-[220px] md:w-[400px] h-2" />
                 </div>
               </div>
             </div>
           ) : (
             education && (
-              <div className="flex flex-col gap-4 mt-20 max-w-2xl mx-auto">
+              <div className="flex flex-col gap-4 mt-12 md:mt-20 max-w-2xl mx-auto">
                 <div className="w-fit space-y-1 mb-4">
-                  <h1 className="font-semibold text-lg">Educational level</h1>
+                  <h1 className="font-semibold text-base md:text-lg">Educational level</h1>
                   <Separator></Separator>
                 </div>
                 <div className="space-y-6 border-l-2 pl-4">
                   {education.map((item) => (
                     <div key={item.id} className="space-y-2">
-                      <div className="flex justify-between items-center">
-                        <h1 className="font-semibold">
+                      <div className="flex justify-between items-center text-sm md:text-base">
+                        <h1 className=" font-semibold">
                           {item.company} -{" "}
                           <span className="text-gray-500 dark:text-gray-200">
                             {item.location}
                           </span>
                         </h1>
                         <div className="h-px bg-gray-200 dark:bg-gray-700 grow mx-4"></div>
-                        <h1 className="text-sm font-medium italic border-r-2 pr-2">
+                        <h1 className="text-sm font-medium italic border-r-2 pr-2 text-sm md:text-base">
                           {item.start_month} {item.start_year} -{" "}
                           {item.end_month} {item.end_year}
                         </h1>
                       </div>
-                      <p className="italic">{item.department}</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-200">
+                      <p className="text-xs md:text-base italic">{item.department}</p>
+                      <p className="text-xs md:text-sm text-gray-500 dark:text-gray-200">
                         {item.desc}
                       </p>
                     </div>
