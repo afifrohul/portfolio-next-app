@@ -1,7 +1,7 @@
 "use client";
 
+import SkeletonProject from "@/components/skeleton-loader/project";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import axios from "axios";
 import { SquareArrowOutUpRight } from "lucide-react";
 import Image from "next/image";
@@ -73,44 +73,7 @@ export default function Projects() {
           </div>
           <div className="md:max-w-2xl mx-auto">
             {loadingProject ? (
-              <div className="space-y-16">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="order-2 md:order-1">
-                    <Skeleton className="w-[50px] h-4 rounded-xs mb-2" />
-                    <Skeleton className="w-[200px] h-5 rounded-sm mb-3" />
-                    <div className="space-y-2  mb-4  ">
-                      <Skeleton className="w-full h-2 rounded-sm" />
-                      <Skeleton className="w-full h-2 rounded-sm" />
-                      <Skeleton className="w-[250px] h-2 rounded-sm" />
-                    </div>
-                    <div className="flex gap-4 items-center my-4">
-                      <Skeleton className="w-5 h-5 rounded-sm" />
-                      <Skeleton className="w-5 h-5 rounded-sm" />
-                      <Skeleton className="w-5 h-5 rounded-sm" />
-                    </div>
-                    <Skeleton className="w-[120px] h-8 rounded-sm" />
-                  </div>
-                  <Skeleton className="w-full h-[150px] lg:h-full rounded-sm order-1 lg:order-2" />
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                  <Skeleton className="w-full h-[150px] md:h-full rounded-sm" />
-                  <div className="">
-                    <Skeleton className="w-[50px] h-4 rounded-xs mb-2" />
-                    <Skeleton className="w-[200px] h-5 rounded-sm mb-3" />
-                    <div className="space-y-2  mb-4  ">
-                      <Skeleton className="w-full h-2 rounded-sm" />
-                      <Skeleton className="w-full h-2 rounded-sm" />
-                      <Skeleton className="w-[250px] h-2 rounded-sm" />
-                    </div>
-                    <div className="flex gap-4 items-center my-4">
-                      <Skeleton className="w-5 h-5 rounded-sm" />
-                      <Skeleton className="w-5 h-5 rounded-sm" />
-                      <Skeleton className="w-5 h-5 rounded-sm" />
-                    </div>
-                    <Skeleton className="w-[120px] h-8 rounded-sm" />
-                  </div>
-                </div>
-              </div>
+              <SkeletonProject />
             ) : (
               project && (
                 <div className="space-y-16">

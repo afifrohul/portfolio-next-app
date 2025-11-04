@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import axios from "axios";
 import { ArrowDownToLineIcon } from "lucide-react";
 import { useTheme } from "next-themes";
@@ -9,6 +8,9 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaEnvelope, FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { Separator } from "@/components/ui/separator";
+import SkeletonProfile from "@/components/skeleton-loader/profile";
+import SkeletonAbout from "@/components/skeleton-loader/about";
+import SkeletonEducation from "@/components/skeleton-loader/education";
 
 export default function About() {
   const [about, setAbout] = useState([]);
@@ -99,10 +101,7 @@ export default function About() {
         <div className="mt-20">
           <div className="flex flex-col items-center justify-center gap-8">
             {loadingProfile ? (
-              <div className="flex gap-4">
-                <Skeleton className="w-14 h-14 rounded-full" />
-                <Skeleton className="w-14 h-14 rounded-full" />
-              </div>
+              <SkeletonProfile />
             ) : (
               profile && (
                 <div className="flex gap-4">
@@ -128,28 +127,7 @@ export default function About() {
               )
             )}
             {loadingAbout ? (
-              <div className="mx-auto space-y-5">
-                <Skeleton className="w-full md:w-lg h-6 md:h-8 lg:h-12 mx-auto" />
-                <div className="mt-4 space-y-2">
-                  <Skeleton className="w-[270px] md:w-[672px] h-3 mx-auto" />
-                  <Skeleton className="w-[260px] md:w-[700px] h-3 mx-auto" />
-                  <Skeleton className="w-[230px] md:w-[690px] h-3 mx-auto" />
-                  <Skeleton className="w-[250px] md:w-[651px] h-3 mx-auto" />
-                  <Skeleton className="w-[240px] md:w-[688px] h-3 mx-auto" />
-                  <Skeleton className="w-[255px] md:w-[500px] h-3 mx-auto" />
-                  <Skeleton className="w-[266px] md:w-[300px] h-3 mx-auto" />
-                </div>
-                <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
-                  <Skeleton className="w-[75px] md:w-[150px] h-8" />
-                  <Skeleton className="w-[75px] md:w-[150px] h-8" />
-                </div>
-                <div className="flex gap-4 justify-center items-center">
-                  <Skeleton className="w-4 h-4 rounded-xs" />
-                  <Skeleton className="w-4 h-4 rounded-xs" />
-                  <Skeleton className="w-4 h-4 rounded-xs" />
-                  <Skeleton className="w-4 h-4 rounded-xs" />
-                </div>
-              </div>
+              <SkeletonAbout />
             ) : (
               about && (
                 <div className="space-y-3 lg:space-y-5">
@@ -240,26 +218,14 @@ export default function About() {
           </div>
 
           {loadingEducation ? (
-            <div className="flex flex-col gap-4 mt-20 max-w-2xl mx-auto">
-              <div className="w-fit space-y-1 mb-4">
-                <Skeleton className="w-[130px] h-6 rounded-sm" />
-                <Separator></Separator>
-              </div>
-              <div className="space-y-6 border-l-2 pl-4">
-                <div className="space-y-2">
-                  <Skeleton className="w-full h-3" />
-                  <Skeleton className="w-[200px] md:w-[340px] h-3" />
-                  <Skeleton className="w-full h-2" />
-                  <Skeleton className="w-full h-2" />
-                  <Skeleton className="w-[220px] md:w-[400px] h-2" />
-                </div>
-              </div>
-            </div>
+            <SkeletonEducation />
           ) : (
             education && (
               <div className="flex flex-col gap-4 mt-12 md:mt-20 max-w-2xl mx-auto">
                 <div className="w-fit space-y-1 mb-4">
-                  <h1 className="font-semibold text-base md:text-lg">Educational level</h1>
+                  <h1 className="font-semibold text-base md:text-lg">
+                    Educational level
+                  </h1>
                   <Separator></Separator>
                 </div>
                 <div className="space-y-6 border-l-2 pl-4">
@@ -278,7 +244,9 @@ export default function About() {
                           {item.end_month} {item.end_year}
                         </h1>
                       </div>
-                      <p className="text-xs md:text-base italic">{item.department}</p>
+                      <p className="text-xs md:text-base italic">
+                        {item.department}
+                      </p>
                       <p className="text-xs md:text-sm text-gray-500 dark:text-gray-200">
                         {item.desc}
                       </p>
