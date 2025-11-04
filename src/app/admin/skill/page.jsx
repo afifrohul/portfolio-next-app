@@ -29,6 +29,7 @@ export default function Skill() {
   const [formData, setFormData] = useState({
     id: null,
     name: "",
+    icon: "",
   });
 
   useEffect(() => {
@@ -80,7 +81,7 @@ export default function Skill() {
 
       toast.success(res.data.message || "Data saved successfully");
       setOpen(false);
-      setFormData({ id: null, name: "" });
+      setFormData({ id: null, name: "", icon: "" });
     } catch (err) {
       toast.error(err.message || "An error occurred while saving data");
       console.error("Submit error:", err);
@@ -115,6 +116,15 @@ export default function Skill() {
       accessorKey: "name",
       header: "Name",
       cell: (info) => info.getValue(),
+    },
+    {
+      accessorKey: "icon",
+      header: "Icon",
+      cell: ({ row }) => (
+        <div>
+          <img src={row.original.icon} alt="icon" className="h-8" />
+        </div>
+      ),
     },
     {
       id: "actions",
@@ -195,6 +205,25 @@ export default function Skill() {
                   setFormData({ ...formData, name: e.target.value })
                 }
               />
+            </div>
+            <div className="space-y-2">
+              <Label>Icon</Label>
+              <Input
+                value={formData.icon}
+                placeholder="Enter icon source"
+                onChange={(e) =>
+                  setFormData({ ...formData, icon: e.target.value })
+                }
+              />
+              <p>
+                <a
+                  href="https://devicon.dev/"
+                  target="_blank"
+                  className="text-xs underline text-blue-500"
+                >
+                  Click this to get source
+                </a>
+              </p>
             </div>
           </div>
 

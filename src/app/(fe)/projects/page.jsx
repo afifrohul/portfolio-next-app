@@ -37,12 +37,14 @@ export default function Projects() {
     fetchProject();
   }, []);
 
+  console.log(project);
+
   return (
     <div>
       <div className="flex flex-col gap-2 justify-center py-2 lg:py-6">
-        <div className="mt-20 max-w-2xl mx-auto space-y-24">
+        <div className="mt-20 max-w-3xl mx-auto space-y-24">
           <div className="space-y-4">
-            <div className="min-w-2xl text-4xl font-bold">
+            <div className="min-w-3xl text-4xl font-bold">
               <h1>Developing Websites,</h1>
               <h1>Building Experiences</h1>
             </div>
@@ -109,7 +111,10 @@ export default function Projects() {
               project && (
                 <div className="space-y-16">
                   {project.map((item, index) => (
-                    <div key={index} className="grid grid-cols-2 gap-12 items-center">
+                    <div
+                      key={index}
+                      className="grid grid-cols-2 gap-12 items-center"
+                    >
                       <div className={index % 2 == 0 ? "order-1" : null}>
                         <p className="text-sm font-medium text-gray-600 dark:text-gray-200 mb-2">
                           {item.year}
@@ -118,6 +123,18 @@ export default function Projects() {
                         <p className="text-sm text-gray-600 dark:text-gray-200">
                           {item.desc}
                         </p>
+                        <div className="flex gap-4 items-center mt-4">
+                          {item.project_skills.map((ps, index) => (
+                            // <p key={index}>{ps.skill.name}</p>
+                            <Image
+                              key={index}
+                              src={ps.skill.icon}
+                              width={20}
+                              height={20}
+                              alt={ps.skill.name}
+                            ></Image>
+                          ))}
+                        </div>
                         <Button variant="secondary" size="sm" className="mt-4">
                           <a
                             href={item.link}

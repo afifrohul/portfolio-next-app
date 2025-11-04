@@ -26,7 +26,7 @@ export async function POST(req) {
 
     const { data, error } = await supabase
       .from("skills")
-      .insert([{ name: body.name }])
+      .insert([{ name: body.name, icon: body.icon }])
       .select()
       .single();
 

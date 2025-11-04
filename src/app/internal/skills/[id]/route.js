@@ -9,7 +9,7 @@ export async function PUT(req, { params }) {
 
     const { data, error } = await supabase
       .from("skills")
-      .update({ name: body.name })
+      .update({ name: body.name, icon: body.icon })
       .eq("id", id)
       .select()
       .single();

@@ -13,7 +13,8 @@ export async function GET() {
       project_skills (
         skill:skills (
           id,
-          name
+          name,
+          icon
         )
       )
     `
