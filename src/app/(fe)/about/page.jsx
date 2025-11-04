@@ -1,99 +1,23 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import axios from "axios";
 import { ArrowDownToLineIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import { FaEnvelope, FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { Separator } from "@/components/ui/separator";
 import SkeletonProfile from "@/components/skeleton-loader/profile";
 import SkeletonAbout from "@/components/skeleton-loader/about";
 import SkeletonEducation from "@/components/skeleton-loader/education";
+import useAbout from "@/hooks/content/useAbout";
+import useEducation from "@/hooks/content/useEducation";
+import useProfile from "@/hooks/content/useProfile";
 
 export default function About() {
-  const [about, setAbout] = useState([]);
-  const [loadingAbout, setLoadingAbout] = useState(true);
-
-  const [education, setEducation] = useState([]);
-  const [loadingEducation, setLoadingEducation] = useState(true);
-
-  const [profile, setProfile] = useState(null);
-  const [loadingProfile, setLoadingProfile] = useState(true);
-
   const { theme } = useTheme();
-
-  useEffect(() => {
-    async function fetchAbout() {
-      try {
-        const res = await axios.get("/internal/abouts");
-        setAbout(res.data);
-      } catch (err) {
-        if (err.response) {
-          console.error(
-            "Server error:",
-            err.response.status,
-            err.response.data
-          );
-        } else if (err.request) {
-          console.error("No response received:", err.request);
-        } else {
-          console.error("Error setting up request:", err.message);
-        }
-      } finally {
-        setLoadingAbout(false);
-      }
-    }
-
-    async function fetchEducation() {
-      try {
-        const res = await axios.get("/internal/educations");
-        setEducation(res.data);
-      } catch (err) {
-        if (err.response) {
-          console.error(
-            "Server error:",
-            err.response.status,
-            err.response.data
-          );
-        } else if (err.request) {
-          console.error("No response received:", err.request);
-        } else {
-          console.error("Error setting up request:", err.message);
-        }
-      } finally {
-        setLoadingEducation(false);
-      }
-    }
-
-    async function fetchProfile() {
-      try {
-        setLoadingProfile(true);
-        const res = await axios.get("/internal/profiles");
-        const firstSrc = res.data?.[0]?.src || null;
-        setProfile(firstSrc);
-      } catch (err) {
-        if (err.response) {
-          console.error(
-            "Server error:",
-            err.response.status,
-            err.response.data
-          );
-        } else if (err.request) {
-          console.error("No response received:", err.request);
-        } else {
-          console.error("Error setting up request:", err.message);
-        }
-      } finally {
-        setLoadingProfile(false);
-      }
-    }
-
-    fetchProfile();
-    fetchAbout();
-    fetchEducation();
-  }, []);
+  const { about, loading: loadingAbout } = useAbout();
+  const { education, loading: loadingEducation } = useEducation();
+  const { profile, loading: loadingProfile } = useProfile();
 
   return (
     <div>

@@ -14,7 +14,7 @@ const roboto = Roboto({
 export default function Home() {
   return (
     <>
-      {/* <Preloader></Preloader> */}
+      <Preloader></Preloader>
       <div className="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden border bg-background">
         <GridPattern
           width={40}
@@ -39,7 +39,9 @@ export default function Home() {
             <div className="w-full min-h-screen flex justify-center items-center">
               <div>
                 <p className="text-xs md:text-base italic">/port·fow·lee·ew/</p>
-                <h1 className={`text-5xl md:text-7xl lg:text-8xl font-medium font-serif`}>
+                <h1
+                  className={`text-5xl md:text-7xl lg:text-8xl font-medium font-serif`}
+                >
                   portfolio.
                 </h1>
                 <div className="mt-3 md:mt-6 lg:mt-8 flex justify-between items-center font-mono">

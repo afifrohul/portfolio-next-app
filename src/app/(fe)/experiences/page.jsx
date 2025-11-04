@@ -2,42 +2,15 @@
 
 import SkeletonExperiences from "@/components/skeleton-loader/experiences";
 import { Separator } from "@/components/ui/separator";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import useExperiences from "@/hooks/content/useExperiences";
 
 export default function Experiences() {
-  const [experience, setExperience] = useState([]);
-  const [loadingExperience, setLoadingExperience] = useState(true);
-
-  useEffect(() => {
-    async function fetchExperience() {
-      try {
-        const res = await axios.get("/internal/experiences");
-        setExperience(res.data);
-      } catch (err) {
-        if (err.response) {
-          console.error(
-            "Server error:",
-            err.response.status,
-            err.response.data
-          );
-        } else if (err.request) {
-          console.error("No response received:", err.request);
-        } else {
-          console.error("Error setting up request:", err.message);
-        }
-      } finally {
-        setLoadingExperience(false);
-      }
-    }
-
-    fetchExperience();
-  }, []);
+  const { experience, loading: loadingExperience } = useExperiences();
 
   return (
     <div className="flex flex-col gap-2 justify-center py-2 lg:py-6">
       <div className="mt-20 w-full lg:max-w-3xl mx-auto space-y-24">
-        <div className="space-y-4 md:max-w-2xl mx-auto">
+        <div className="space-y-4 md:max-w-2xl lg:max-w-3xl mx-auto">
           <div className="lg:min-w-3xl text-2xl lg:text-4xl font-bold">
             <h1>Developing Websites,</h1>
             <h1>Building Experiences</h1>
@@ -50,12 +23,12 @@ export default function Experiences() {
             </p>
           </div>
         </div>
-        <div>
+        <div className="md:max-w-2xl lg:max-w-3xl">
           {loadingExperience ? (
             <SkeletonExperiences />
           ) : (
             experience && (
-              <div className="flex flex-col gap-4 mt-20 md:max-w-2xl mx-auto">
+              <div className="flex flex-col gap-4 mt-20 mx-auto">
                 <div className="w-fit space-y-1 mb-4">
                   <h1 className="font-semibold text-base md:text-lg">
                     Professional Experiences

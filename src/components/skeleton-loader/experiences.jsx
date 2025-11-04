@@ -3,7 +3,7 @@ import { Separator } from "@/components/ui/separator";
 
 export default function SkeletonExperiences() {
   return (
-    <div className="flex flex-col gap-4 mt-20 md:max-w-2xl mx-auto">
+    <div className="flex flex-col gap-4 mt-20 mx-auto">
       <div className="w-fit space-y-1 mb-4">
         <Skeleton className="w-[130px] h-6 rounded-sm" />
         <Separator></Separator>

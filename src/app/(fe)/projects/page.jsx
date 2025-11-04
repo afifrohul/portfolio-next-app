@@ -2,46 +2,19 @@
 
 import SkeletonProject from "@/components/skeleton-loader/project";
 import { Button } from "@/components/ui/button";
-import axios from "axios";
+import useProject from "@/hooks/content/useProject";
 import { SquareArrowOutUpRight } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import { FaGithub } from "react-icons/fa";
 
 export default function Projects() {
-  const [project, setProject] = useState([]);
-  const [loadingProject, setLoadingProject] = useState(true);
-
-  useEffect(() => {
-    async function fetchProject() {
-      try {
-        const res = await axios.get("/internal/projects");
-        setProject(res.data);
-      } catch (err) {
-        if (err.response) {
-          console.error(
-            "Server error:",
-            err.response.status,
-            err.response.data
-          );
-        } else if (err.request) {
-          console.error("No response received:", err.request);
-        } else {
-          console.error("Error setting up request:", err.message);
-        }
-      } finally {
-        setLoadingProject(false);
-      }
-    }
-
-    fetchProject();
-  }, []);
+  const { project, loading: loadingProject } = useProject();
 
   return (
     <div>
       <div className="flex flex-col gap-2 justify-center py-2 lg:py-6">
         <div className="mt-20 w-full lg:max-w-3xl mx-auto space-y-24">
-          <div className="space-y-4 md:max-w-2xl mx-auto">
+          <div className="space-y-4 md:max-w-2xl lg:max-w-3xl mx-auto">
             <div className="lg:min-w-3xl text-2xl lg:text-4xl font-bold">
               <h1>Developing Websites,</h1>
               <h1>Building Experiences</h1>
@@ -71,7 +44,7 @@ export default function Projects() {
               </div>
             </div>
           </div>
-          <div className="md:max-w-2xl mx-auto">
+          <div className="md:max-w-2xl lg:max-w-3xl mx-auto">
             {loadingProject ? (
               <SkeletonProject />
             ) : (
