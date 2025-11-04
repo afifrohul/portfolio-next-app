@@ -22,8 +22,6 @@ export default function About() {
 
   const { theme } = useTheme();
 
-  console.log(about);
-
   useEffect(() => {
     async function fetchAbout() {
       try {
