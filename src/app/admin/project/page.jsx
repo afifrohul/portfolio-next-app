@@ -36,6 +36,7 @@ export default function Project() {
     desc: "",
     link: "",
     image: "",
+    year: "",
     project_skills: [],
   });
 
@@ -75,6 +76,7 @@ export default function Project() {
       form.append("title", formData.title);
       form.append("desc", formData.desc);
       form.append("link", formData.link);
+      form.append("year", formData.year);
       form.append("project_skills", JSON.stringify(formData.project_skills));
 
       let res;
@@ -109,6 +111,7 @@ export default function Project() {
         title: "",
         desc: "",
         link: "",
+        year: "",
         project_skills: [],
       });
     } catch (err) {
@@ -193,6 +196,11 @@ export default function Project() {
           {info.getValue()}
         </a>
       ),
+    },
+    {
+      accessorKey: "year",
+      header: "Year",
+      cell: (info) => info.getValue(),
     },
     {
       id: "actions",
@@ -320,6 +328,20 @@ export default function Project() {
                 placeholder="Enter project link"
                 onChange={(e) =>
                   setFormData({ ...formData, link: e.target.value })
+                }
+              />
+            </div>
+            <div className="space-y-2 w-full">
+              <Label>Year</Label>
+              <Input
+                type="number"
+                placeholder="Enter year"
+                value={formData.year || ""}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    year: Number(e.target.value),
+                  })
                 }
               />
             </div>
