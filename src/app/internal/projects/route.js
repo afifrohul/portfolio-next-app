@@ -13,12 +13,13 @@ export async function GET() {
       project_skills (
         skill:skills (
           id,
-          name
+          name,
+          icon
         )
       )
     `
       )
-      .order("created_at", { ascending: false });
+      .order("year", { ascending: false });
 
     if (error) throw error;
 
@@ -48,6 +49,7 @@ export async function POST(req) {
     const title = formData.get("title");
     const desc = formData.get("desc");
     const link = formData.get("link");
+    const year = formData.get("year");
     const skillsRaw = formData.get("project_skills");
     const project_skills = skillsRaw ? JSON.parse(skillsRaw) : [];
 
@@ -79,6 +81,7 @@ export async function POST(req) {
           title,
           desc,
           link,
+          year,
           image: publicUrlData.publicUrl,
         },
       ])

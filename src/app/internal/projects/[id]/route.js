@@ -23,6 +23,7 @@ export async function PUT(req, { params }) {
     const title = formData.get("title");
     const desc = formData.get("desc");
     const link = formData.get("link");
+    const year = formData.get("year");
     const skillsRaw = formData.get("project_skills");
     const project_skills = skillsRaw ? JSON.parse(skillsRaw) : [];
     const newFile = formData.get("file");
@@ -65,6 +66,7 @@ export async function PUT(req, { params }) {
         title,
         desc,
         link,
+        year,
         image: imageUrl,
       })
       .eq("id", id)

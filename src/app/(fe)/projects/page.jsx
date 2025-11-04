@@ -1,112 +1,110 @@
 "use client";
 
+import SkeletonProject from "@/components/skeleton-loader/project";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import axios from "axios";
+import useProject from "@/hooks/content/useProject";
+import { SquareArrowOutUpRight } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { FaGithub } from "react-icons/fa";
 
 export default function Projects() {
-  const [project, setProject] = useState([]);
-  const [loadingProject, setLoadingProject] = useState(true);
-
-  useEffect(() => {
-    async function fetchProject() {
-      try {
-        const res = await axios.get("/internal/projects");
-        setProject(res.data);
-      } catch (err) {
-        if (err.response) {
-          console.error(
-            "Server error:",
-            err.response.status,
-            err.response.data
-          );
-        } else if (err.request) {
-          console.error("No response received:", err.request);
-        } else {
-          console.error("Error setting up request:", err.message);
-        }
-      } finally {
-        setLoadingProject(false);
-      }
-    }
-
-    fetchProject();
-  }, []);
+  const { project, loading: loadingProject } = useProject();
 
   return (
-    <div className="flex flex-col gap-2 justify-center py-6">
-      <div className="rounded-xl bg-gray-200 w-fit px-3 py-1 mx-auto">
-        <p className="text-xs font-medium">Project</p>
-      </div>
-
-      {!loadingProject && (
-        <h1 className="font-bold text-base lg:text-3xl text-center mb-4">
-          Projects Showcase
-        </h1>
-      )}
-
-      {loadingProject ? (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div className="flex flex-col gap-2 w-full justify-center">
-            <Skeleton className="h-48 w-[100%]" />
-            <Skeleton className="h-4 w-[100%]" />
-            <Skeleton className="h-4 w-[60%]" />
-            <Skeleton className="h-4 w-[90%]" />
+    <div>
+      <div className="flex flex-col gap-2 justify-center py-2 lg:py-6">
+        <div className="mt-20 w-full lg:max-w-3xl mx-auto space-y-24">
+          <div className="space-y-4 md:max-w-2xl lg:max-w-3xl mx-auto">
+            <div className="lg:min-w-3xl text-2xl lg:text-4xl font-bold">
+              <h1>Developing Websites,</h1>
+              <h1>Building Experiences</h1>
+            </div>
+            <div>
+              <p className="text-gray-600 dark:text-gray-200 text-sm lg:text-base">
+                I have worked on various projects, focusing on website
+                application development. I am experienced in building full-stack
+                website applications with Laravel and React. Here are some
+                highlights that I am proud of, showcasing my process from
+                concept to implementation.
+              </p>
+            </div>
+            <div>
+              <div className="duration-200 rounded w-fit">
+                <Button>
+                  <a
+                    href="https://github.com/afifrohul"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-3 "
+                  >
+                    <p className="text-xs md:text-base font-semibold">Github</p>
+                    <FaGithub className="text-xs lg:text-xl"></FaGithub>
+                  </a>
+                </Button>
+              </div>
+            </div>
           </div>
-          <div className="flex flex-col gap-2 w-full justify-center">
-            <Skeleton className="h-48 w-[100%]" />
-            <Skeleton className="h-4 w-[100%]" />
-            <Skeleton className="h-4 w-[60%]" />
-            <Skeleton className="h-4 w-[90%]" />
-          </div>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {project.map((proj, index) => (
-            <div
-              key={index}
-              className="rounded overflow-hidden border-2 boder-gray-500 hover:border-gray-700 transition-all duration-300 pb-4"
-            >
-              <Image
-                src={proj.image}
-                alt={proj.title}
-                width={500}
-                height={300}
-              />
-              <div className="p-2 flex flex-col gap-3 lg:gap-4 mt-2">
-                <h1 className="text-sm lg:text-base font-medium">
-                  {proj.title}
-                </h1>
-                <p className=" text-xs lg:text-base text-muted-foreground">
-                  {proj.desc}
-                </p>
-                <div className="flex gap-2 flex-wrap">
-                  {proj.project_skills.map((item, idx) => (
+          <div className="md:max-w-2xl lg:max-w-3xl mx-auto">
+            {loadingProject ? (
+              <SkeletonProject />
+            ) : (
+              project && (
+                <div className="space-y-16">
+                  {project.map((item, index) => (
                     <div
-                      key={idx}
-                      className="text-xs text-muted-foreground bg-muted rounded-xl px-2 py-1"
+                      key={index}
+                      className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
                     >
-                      {item.skill.name}
+                      <div
+                        className={`${index % 2 == 0 ? "md:order-2" : null}`}
+                      >
+                        <Image
+                          src={item.image}
+                          width={1080}
+                          height={720}
+                          alt={item.title}
+                          className="bg-cover rounded-lg"
+                        ></Image>
+                      </div>
+                      <div className="">
+                        <p className="text-sm font-medium text-gray-600 dark:text-gray-200 mb-2">
+                          {item.year}
+                        </p>
+                        <p className="font-semibold mb-1">{item.title}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-200">
+                          {item.desc}
+                        </p>
+                        <div className="flex gap-4 items-center mt-4">
+                          {item.project_skills.map((ps, index) => (
+                            <Image
+                              key={index}
+                              src={ps.skill.icon}
+                              width={20}
+                              height={20}
+                              alt={ps.skill.name}
+                            ></Image>
+                          ))}
+                        </div>
+                        <Button variant="secondary" size="sm" className="mt-4">
+                          <a
+                            href={item.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center gap-3 "
+                          >
+                            <p className="font-medium text-xs">View Project</p>
+                            <SquareArrowOutUpRight className=""></SquareArrowOutUpRight>
+                          </a>
+                        </Button>
+                      </div>
                     </div>
                   ))}
                 </div>
-
-                <a href={proj.link} target="_blank" rel="noopener noreferrer">
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className={"w-full hover:cursor-pointer"}
-                  >
-                    <p className="text-xs lg:text-base">View Project</p>
-                  </Button>
-                </a>
-              </div>
-            </div>
-          ))}
+              )
+            )}
+          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 }
