@@ -139,7 +139,9 @@ export default function About() {
             >
               <motion.div variants={child}>
                 <Button>
-                  Download CV <ArrowDownToLineIcon />
+                  <a href="/cv.pdf" className="flex justify-center items-center gap-2">
+                    Download CV <ArrowDownToLineIcon />
+                  </a>
                 </Button>
               </motion.div>
               <motion.div variants={child}>
