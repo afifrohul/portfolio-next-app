@@ -6,9 +6,30 @@ import useProject from "@/hooks/content/useProject";
 import { SquareArrowOutUpRight } from "lucide-react";
 import Image from "next/image";
 import { FaGithub } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 export default function Projects() {
   const { project, loading: loadingProject } = useProject();
+
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.25,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const child = {
+    hidden: { opacity: 0, y: 20 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.4, ease: "easeOut" },
+    },
+  };
 
   return (
     <div>
@@ -49,11 +70,17 @@ export default function Projects() {
               <SkeletonProject />
             ) : (
               project && (
-                <div className="space-y-16">
+                <motion.div
+                  className="space-y-16"
+                  initial="hidden"
+                  animate="show"
+                  variants={container}
+                >
                   {project.map((item, index) => (
-                    <div
+                    <motion.div
                       key={index}
                       className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
+                      variants={child}
                     >
                       <div
                         className={`${index % 2 == 0 ? "md:order-2" : null}`}
@@ -97,9 +124,9 @@ export default function Projects() {
                           </a>
                         </Button>
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
-                </div>
+                </motion.div>
               )
             )}
           </div>

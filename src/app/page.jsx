@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import Navbar from "@/components/navbar";
 import { cn } from "@/lib/utils";
 import { GridPattern } from "@/components/ui/grid-pattern";
@@ -25,13 +26,8 @@ export default function Home() {
 
   useEffect(() => {
     const hasLoaded = sessionStorage.getItem("hasLoaded");
-
-    if (hasLoaded) {
-      setIsReady(true);
-    } else {
-      setShowLoader(true);
-    }
-
+    if (hasLoaded) setIsReady(true);
+    else setShowLoader(true);
     setIsClientChecked(true);
   }, []);
 
@@ -45,9 +41,7 @@ export default function Home() {
       !loadingProject
     ) {
       sessionStorage.setItem("hasLoaded", "true");
-
       setTimeout(() => setIsFadingOut(true), 100);
-
       const timeout = setTimeout(() => {
         setShowLoader(false);
         setIsReady(true);
@@ -63,16 +57,20 @@ export default function Home() {
     loadingProject,
   ]);
 
-  if (!isClientChecked) {
-    return null;
-  }
-
-  if (showLoader && !isReady) {
-    return <SimpleLoader fadingOut={isFadingOut} />;
-  }
+  if (!isClientChecked) return null;
+  if (showLoader && !isReady) return <SimpleLoader fadingOut={isFadingOut} />;
 
   return (
-    <div className="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden border bg-background">
+    <motion.div
+      key="home"
+      initial={{ opacity: 0, }}
+      animate={{ opacity: 1, }}
+      transition={{
+        duration: 0.8,
+        ease: [0.25, 0.1, 0.25, 1],
+      }}
+      className="relative flex h-screen w-full flex-col items-center justify-center overflow-hidden border bg-background"
+    >
       <GridPattern
         width={40}
         height={40}
@@ -94,7 +92,14 @@ export default function Home() {
         <Navbar />
         <div className="w-4xl border-x-1 mx-auto">
           <div className="w-full min-h-screen flex justify-center items-center">
-            <div>
+            <motion.div
+              initial={{ opacity: 0, y: 20, filter: "blur(5px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{
+                duration: 0.8,
+                ease: [0.25, 0.1, 0.25, 1], 
+              }}
+            >
               <p className="text-xs md:text-base italic">/port·fow·lee·ew/</p>
               <h1 className="text-5xl md:text-7xl lg:text-8xl font-medium font-serif">
                 portfolio.
@@ -102,10 +107,10 @@ export default function Home() {
               <div className="mt-3 md:mt-6 lg:mt-8 flex justify-between items-center font-mono">
                 <p className="text-xs md:text-base italic">web developer</p>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

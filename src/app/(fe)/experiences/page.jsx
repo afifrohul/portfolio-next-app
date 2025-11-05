@@ -3,9 +3,30 @@
 import SkeletonExperiences from "@/components/skeleton-loader/experiences";
 import { Separator } from "@/components/ui/separator";
 import useExperiences from "@/hooks/content/useExperiences";
+import { motion } from "framer-motion";
 
 export default function Experiences() {
   const { experience, loading: loadingExperience } = useExperiences();
+
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.25,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const child = {
+    hidden: { opacity: 0, y: 20 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.4, ease: "easeOut" },
+    },
+  };
 
   return (
     <div className="flex flex-col gap-2 justify-center py-2 lg:py-6">
@@ -29,15 +50,18 @@ export default function Experiences() {
           ) : (
             experience && (
               <div className="flex flex-col gap-4 mt-20 mx-auto">
-                <div className="w-fit space-y-1 mb-4">
-                  <h1 className="font-semibold text-base md:text-lg">
-                    Professional Experiences
-                  </h1>
-                  <Separator></Separator>
-                </div>
-                <div className="space-y-6 border-l-2 pl-4">
+                <motion.div
+                  className="space-y-6 border-l-2 pl-4"
+                  initial="hidden"
+                  animate="show"
+                  variants={container}
+                >
                   {experience.map((item) => (
-                    <div key={item.id} className="space-y-2">
+                    <motion.div
+                      key={item.id}
+                      className="space-y-2"
+                      variants={child}
+                    >
                       <div className="flex justify-between items-center text-sm md:text-base">
                         <h1 className="font-semibold">{item.company}</h1>
                         <div className="h-px bg-gray-200 dark:bg-gray-700 grow mx-4"></div>
@@ -50,9 +74,9 @@ export default function Experiences() {
                       <p className="text-xs  md:text-sm text-gray-500 dark:text-gray-200">
                         {item.desc}
                       </p>
-                    </div>
+                    </motion.div>
                   ))}
-                </div>
+                </motion.div>
               </div>
             )
           )}

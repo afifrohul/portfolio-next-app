@@ -12,6 +12,7 @@ import SkeletonEducation from "@/components/skeleton-loader/education";
 import useAbout from "@/hooks/content/useAbout";
 import useEducation from "@/hooks/content/useEducation";
 import useProfile from "@/hooks/content/useProfile";
+import { motion } from "framer-motion";
 
 export default function About() {
   const { theme } = useTheme();
@@ -19,23 +20,81 @@ export default function About() {
   const { education, loading: loadingEducation } = useEducation();
   const { profile, loading: loadingProfile } = useProfile();
 
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        delayChildren: 0.1,
+        staggerChildren: 0.2,
+        duration: 0.6,
+        ease: [0.25, 0.1, 0.25, 1],
+      },
+    },
+  };
+
+  const child = {
+    hidden: { opacity: 0, scale: 1.2, filter: "blur(5px)" },
+    show: {
+      opacity: 1,
+      scale: 1,
+      filter: "blur(0px)",
+      transition: { duration: 0.7, ease: "easeOut" },
+    },
+  };
+
+  const subContainer = {
+    hidden: {},
+    show: {
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const containerEdu = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.25,
+        delayChildren: 0.1,
+      },
+    },
+  };
+
+  const childEdu = {
+    hidden: { opacity: 0, y: 20, filter: "blur(5px)" },
+    show: {
+      opacity: 1,
+      y: 0,
+      filter: "blur(0px)",
+      transition: { duration: 0.8, ease: "easeOut" },
+    },
+  };
+
   return (
     <div>
       <div className="flex flex-col gap-2 justify-center py-2 lg:py-6">
         <div className="mt-20">
-          <div className="flex flex-col items-center justify-center gap-8">
+          <motion.div
+            className="flex flex-col items-center justify-center gap-8"
+            variants={container}
+            initial="hidden"
+            animate="show"
+          >
             {loadingProfile ? (
               <SkeletonProfile />
             ) : (
               profile && (
-                <div className="flex gap-4">
+                <motion.div className="flex gap-4" variants={child}>
                   <div className="border p-2 lg:p-4 rounded-full">
                     <Image
                       src={theme === "dark" ? "/afif-light.svg" : "/afif.svg"}
                       width={240}
                       height={240}
                       alt="logo"
-                      className=" w-14 lg:w-12 h-12"
+                      className="w-14 lg:w-12 h-12"
                     />
                   </div>
                   <div className="border p-1 lg:p-2 rounded-full">
@@ -47,14 +106,15 @@ export default function About() {
                       className="w-16 h-16"
                     />
                   </div>
-                </div>
+                </motion.div>
               )
             )}
+
             {loadingAbout ? (
               <SkeletonAbout />
             ) : (
               about && (
-                <div className="space-y-3 lg:space-y-5">
+                <motion.div variants={child} className="space-y-3 lg:space-y-5">
                   <div className="text-2xl lg:text-5xl font-bold">
                     <h1 className="text-center">Hi, I'm Afif Rohul Abrori</h1>
                   </div>
@@ -68,93 +128,82 @@ export default function About() {
                       </p>
                     ))}
                   </div>
-                  <div className="flex flex-col md:flex-row justify-center items-center gap-2 lg:gap-4">
-                    <a
-                      href="/cv.pdf"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className=" flex items-center gap-2 w-fit"
-                    >
-                      <Button className="hover:cursor-pointer" size="sm">
-                        <p className="text-xs md:text-sm">Download CV</p>
-                        <ArrowDownToLineIcon className="h-4"></ArrowDownToLineIcon>
-                      </Button>
-                    </a>
-                    <div className="flex justify-center items-center gap-2 hover:bg-green-100 dark:hover:bg-green-900 p-2 rounded-md hover:cursor-pointer duration-300">
-                      <span className="relative flex size-2">
-                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
-                        <span className="relative inline-flex size-2 rounded-full bg-green-500"></span>
-                      </span>
-                      <p className="text-xs md:text-sm font-medium text-green-500">
-                        Available for new projects
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex justify-center">
-                    <div className="flex flex-col gap-4">
-                      <div className="flex gap-4 ">
-                        <div className="p-1 hover:bg-accent duration-200 rounded">
-                          <a
-                            href="https://www.instagram.com/afif.rohul/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className=""
-                          >
-                            <FaInstagram className="text-xl text-gray-600 dark:text-gray-200"></FaInstagram>
-                          </a>
-                        </div>
-                        <div className="p-1 hover:bg-accent duration-200 rounded">
-                          <a
-                            href="https://www.linkedin.com/in/afifrohul/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className=""
-                          >
-                            <FaLinkedin className="text-xl text-gray-600 dark:text-gray-200"></FaLinkedin>
-                          </a>
-                        </div>
-                        <div className="p-1 hover:bg-accent duration-200 rounded">
-                          <a
-                            href="https://github.com/afifrohul"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className=""
-                          >
-                            <FaGithub className="text-xl text-gray-600 dark:text-gray-200"></FaGithub>
-                          </a>
-                        </div>
-                        <div className="p-1 hover:bg-accent duration-200 rounded">
-                          <a
-                            href="mailto:afifmemyself22@gmail.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className=""
-                          >
-                            <FaEnvelope className="text-xl text-gray-600 dark:text-gray-200"></FaEnvelope>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                </motion.div>
               )
             )}
-          </div>
+
+            {/* Tombol */}
+            <motion.div
+              variants={subContainer}
+              className="flex flex-col items-center md:flex-row gap-4"
+            >
+              <motion.div variants={child}>
+                <Button>
+                  Download CV <ArrowDownToLineIcon />
+                </Button>
+              </motion.div>
+              <motion.div variants={child}>
+                <div className="flex items-center gap-2">
+                  <span className="relative flex size-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75"></span>
+                    <span className="relative inline-flex size-2 rounded-full bg-green-500"></span>
+                  </span>
+                  <p className="text-xs md:text-sm font-medium text-green-500">
+                    Available for new projects
+                  </p>
+                </div>
+              </motion.div>
+            </motion.div>
+
+            {/* Sosial media */}
+            <motion.div variants={subContainer} className="flex gap-4">
+              {[
+                {
+                  icon: <FaInstagram />,
+                  link: "https://instagram.com/afif.rohul",
+                },
+                {
+                  icon: <FaLinkedin />,
+                  link: "https://linkedin.com/in/afifrohul",
+                },
+                { icon: <FaGithub />, link: "https://github.com/afifrohul" },
+                {
+                  icon: <FaEnvelope />,
+                  link: "mailto:afifmemyself22@gmail.com",
+                },
+              ].map((soc, i) => (
+                <motion.a
+                  key={i}
+                  href={soc.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variants={child}
+                >
+                  <div className="p-1 hover:bg-accent duration-200 rounded">
+                    {soc.icon}
+                  </div>
+                </motion.a>
+              ))}
+            </motion.div>
+          </motion.div>
 
           {loadingEducation ? (
             <SkeletonEducation />
           ) : (
             education && (
               <div className="flex flex-col gap-4 mt-12 md:mt-20 max-w-2xl mx-auto">
-                <div className="w-fit space-y-1 mb-4">
-                  <h1 className="font-semibold text-base md:text-lg">
-                    Educational level
-                  </h1>
-                  <Separator></Separator>
-                </div>
-                <div className="space-y-6 border-l-2 pl-4">
+                <motion.div
+                  className="space-y-6 border-l-2 pl-4"
+                  initial="hidden"
+                  animate="show"
+                  variants={containerEdu}
+                >
                   {education.map((item) => (
-                    <div key={item.id} className="space-y-2">
+                    <motion.div
+                      key={item.id}
+                      className="space-y-2"
+                      variants={childEdu}
+                    >
                       <div className="flex justify-between items-center text-sm md:text-base">
                         <h1 className=" font-semibold">
                           {item.company} -{" "}
@@ -174,9 +223,9 @@ export default function About() {
                       <p className="text-xs md:text-sm text-gray-500 dark:text-gray-200">
                         {item.desc}
                       </p>
-                    </div>
+                    </motion.div>
                   ))}
-                </div>
+                </motion.div>
               </div>
             )
           )}
