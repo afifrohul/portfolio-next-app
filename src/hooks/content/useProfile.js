@@ -13,8 +13,6 @@ export default function useProfile() {
     }
   );
 
-  console.log(data)
-
   return {
     profile: data || [],
     loading: isLoading,
