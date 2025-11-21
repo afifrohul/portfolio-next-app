@@ -11,8 +11,12 @@ import useExperiences from "@/hooks/content/useExperiences";
 import useProfile from "@/hooks/content/useProfile";
 import useProject from "@/hooks/content/useProject";
 import SimpleLoader from "@/components/simple-loader";
+import Image from "next/image";
+import { useTheme } from "next-themes";
 
 export default function Home() {
+  const { theme } = useTheme();
+
   const [isClientChecked, setIsClientChecked] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
   const [isFadingOut, setIsFadingOut] = useState(false);
@@ -63,8 +67,8 @@ export default function Home() {
   return (
     <motion.div
       key="home"
-      initial={{ opacity: 0, }}
-      animate={{ opacity: 1, }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       transition={{
         duration: 0.8,
         ease: [0.25, 0.1, 0.25, 1],
@@ -97,15 +101,30 @@ export default function Home() {
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
               transition={{
                 duration: 0.8,
-                ease: [0.25, 0.1, 0.25, 1], 
+                ease: [0.25, 0.1, 0.25, 1],
               }}
+              className="flex items-center justify-around gap-12 md:gap-32 lg:gap-0 lg:w-full"
             >
-              <p className="text-xs md:text-base italic">/port·fow·lee·ew/</p>
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-medium font-serif">
-                portfolio.
-              </h1>
-              <div className="mt-3 md:mt-6 lg:mt-8 flex justify-between items-center font-mono">
-                <p className="text-xs md:text-base italic">web developer</p>
+              <div>
+                <p className="text-xs md:text-base italic ">2021</p>
+                <p className="text-xs md:text-base italic ">
+                  / {new Date().getFullYear() % 100}
+                </p>
+              </div>
+              <Image
+                src={
+                  theme === "dark"
+                    ? "/PORTFOLIO_LIGHT.png"
+                    : "/PORTFOLIO_DARK.png"
+                }
+                alt="Portfolio"
+                width={720}
+                height={473}
+                className="w-24 lg:w-64"
+              />
+              <div className="font-mono">
+                <p className="text-xs md:text-base italic">web</p>
+                <p className="text-xs md:text-base italic">developer</p>
               </div>
             </motion.div>
           </div>
