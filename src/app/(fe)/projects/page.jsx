@@ -51,17 +51,17 @@ export default function Projects() {
             </div>
             <div>
               <div className="duration-200 rounded w-fit">
-                <Button>
-                  <a
-                    href="https://github.com/afifrohul"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-3 "
-                  >
-                    <p className="text-xs md:text-base font-semibold">Github</p>
+                <a
+                  href="https://github.com/afifrohul"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-3 "
+                >
+                  <Button className="hover:cursor-pointer duration-200">
+                    <p className="text-xs md:text-base">Github</p>
                     <FaGithub className="text-xs lg:text-xl"></FaGithub>
-                  </a>
-                </Button>
+                  </Button>
+                </a>
               </div>
             </div>
           </div>

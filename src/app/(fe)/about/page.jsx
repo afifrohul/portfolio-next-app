@@ -138,11 +138,15 @@ export default function About() {
               className="flex flex-col items-center md:flex-row gap-4"
             >
               <motion.div variants={child}>
-                <Button>
-                  <a href="/cv.pdf" className="flex justify-center items-center gap-2">
+                <a
+                  href="/cv.pdf"
+                  className="flex justify-center items-center gap-2"
+                  target="_blank"
+                >
+                  <Button className="hover:cursor-pointer duration-200">
                     Download CV <ArrowDownToLineIcon />
-                  </a>
-                </Button>
+                  </Button>
+                </a>
               </motion.div>
               <motion.div variants={child}>
                 <div className="flex items-center gap-2">
