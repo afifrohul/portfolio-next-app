@@ -20,11 +20,11 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: oklch(1 0 0);
+  --background: oklch(0.9670 0.0029 264.5419);
   --foreground: oklch(0.2686 0 0);
-  --card: oklch(1 0 0);
+  --card: oklch(0.9670 0.0029 264.5419);
   --card-foreground: oklch(0.2686 0 0);
-  --popover: oklch(1 0 0);
+  --popover: oklch(0.9670 0.0029 264.5419);
   --popover-foreground: oklch(0.2686 0 0);
   --primary: oklch(0.7686 0.1647 70.0804);
   --primary-foreground: oklch(0 0 0);
