@@ -324,7 +324,7 @@ export default function Project() {
               />
             </div>
             <div className="space-y-2">
-              <Label>Link</Label>
+              <Label>Link (Optional)</Label>
               <Input
                 value={formData.link}
                 placeholder="Enter project link"

@@ -112,17 +112,25 @@ export default function Projects() {
                             ></Image>
                           ))}
                         </div>
-                        <Button variant="secondary" size="sm" className="mt-4">
-                          <a
-                            href={item.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-center gap-3 "
+                        {item.link ? (
+                          <Button
+                            variant="secondary"
+                            size="sm"
+                            className="mt-4"
                           >
-                            <p className="font-medium text-xs">View Project</p>
-                            <SquareArrowOutUpRight className=""></SquareArrowOutUpRight>
-                          </a>
-                        </Button>
+                            <a
+                              href={item.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center justify-center gap-3 "
+                            >
+                              <p className="font-medium text-xs">
+                                View Project
+                              </p>
+                              <SquareArrowOutUpRight className=""></SquareArrowOutUpRight>
+                            </a>
+                          </Button>
+                        ) : null}
                       </div>
                     </motion.div>
                   ))}
