@@ -58,6 +58,7 @@ export default function About() {
       opacity: 1,
       transition: {
         staggerChildren: 0.25,
+        delay: 1.4,
         delayChildren: 0.1,
       },
     },
@@ -144,7 +145,7 @@ export default function About() {
                   target="_blank"
                 >
                   <Button className="hover:cursor-pointer duration-200">
-                    Download CV <ArrowDownToLineIcon />
+                    Download CV <ArrowDownToLineIcon/>
                   </Button>
                 </a>
               </motion.div>
@@ -199,7 +200,7 @@ export default function About() {
             education && (
               <div className="flex flex-col gap-4 mt-12 md:mt-20 max-w-2xl mx-auto">
                 <motion.div
-                  className="space-y-6 border-l-2 pl-4"
+                  className="space-y-6 border-l pl-4"
                   initial="hidden"
                   animate="show"
                   variants={containerEdu}
@@ -210,25 +211,28 @@ export default function About() {
                       className="space-y-2"
                       variants={childEdu}
                     >
-                      <div className="flex justify-between items-center text-sm md:text-base">
-                        <h1 className=" font-semibold">
-                          {item.company} -{" "}
-                          <span className="text-gray-500 dark:text-gray-200">
-                            {item.location}
-                          </span>
-                        </h1>
-                        <div className="h-px bg-gray-200 dark:bg-gray-700 grow mx-4"></div>
-                        <h1 className="text-sm font-medium italic border-r-2 pr-2 text-sm md:text-base">
-                          {item.start_month} {item.start_year} -{" "}
-                          {item.end_month} {item.end_year}
-                        </h1>
+                      <div className="md:grid grid-cols-3 space-y-1.5 md:space-y-0">
+                        <div>
+                          <p className="text-xs text-gray-500 dark:text-gray-300 mt-1">
+                            {item.start_month} {item.start_year} -{" "}
+                            {item.end_month} {item.end_year}
+                          </p>
+                        </div>
+                        <div className="col-span-2 space-y-1.5">
+                          <h1 className="font-semibold">
+                            {item.company}{" "}
+                            <span className="text-sm font-normal italic">
+                              - {item.location}
+                            </span>
+                          </h1>
+                          <p className="italic font-medium text-sm text-gray-500 dark:text-gray-400">
+                            {item.department}
+                          </p>
+                          <p className="text-xs  md:text-sm text-gray-500 dark:text-gray-400">
+                            {item.desc}
+                          </p>
+                        </div>
                       </div>
-                      <p className="text-xs md:text-base italic">
-                        {item.department}
-                      </p>
-                      <p className="text-xs md:text-sm text-gray-500 dark:text-gray-200">
-                        {item.desc}
-                      </p>
                     </motion.div>
                   ))}
                 </motion.div>

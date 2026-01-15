@@ -64,7 +64,7 @@ export default function Experiences() {
                     >
                       <div className="md:grid grid-cols-3 space-y-1.5 md:space-y-0">
                         <div>
-                          <p className="text-xs text-gray-500 mt-1">
+                          <p className="text-xs text-gray-500 dark:text-gray-300 mt-1">
                             {item.start_month} {item.start_year} - {item.end_month} {item.end_year}
                           </p>
                         </div>
