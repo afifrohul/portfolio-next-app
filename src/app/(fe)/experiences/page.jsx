@@ -51,7 +51,7 @@ export default function Experiences() {
             experience && (
               <div className="flex flex-col gap-4 mt-20 mx-auto">
                 <motion.div
-                  className="space-y-6 border-l-2 pl-4"
+                  className="space-y-6 border-l pl-4"
                   initial="hidden"
                   animate="show"
                   variants={container}
@@ -62,18 +62,21 @@ export default function Experiences() {
                       className="space-y-2"
                       variants={child}
                     >
-                      <div className="flex justify-between items-center text-sm md:text-base">
-                        <h1 className="font-semibold">{item.company}</h1>
-                        <div className="h-px bg-gray-200 dark:bg-gray-700 grow mx-4"></div>
-                        <h1 className="text-sm font-medium italic border-r-2 pr-2 text-sm md:text-base">
-                          {item.start_month} {item.start_year} -{" "}
-                          {item.end_month} {item.end_year}
-                        </h1>
+                      <div className="md:grid grid-cols-3 space-y-1.5 md:space-y-0">
+                        <div>
+                          <p className="text-xs text-gray-500 dark:text-gray-300 mt-1">
+                            {item.start_month} {item.start_year} - {item.end_month} {item.end_year}
+                          </p>
+                        </div>
+                        <div className="col-span-2 space-y-1.5">
+                          <h1 className="font-semibold">
+                            {item.company} <span className="text-sm font-normal italic">- {item.role}</span>
+                          </h1>
+                          <p className="text-xs  md:text-sm text-gray-500 dark:text-gray-400">
+                            {item.desc}
+                          </p>
+                        </div>
                       </div>
-                      <p className="text-xs md:text-base italic">{item.role}</p>
-                      <p className="text-xs  md:text-sm text-gray-500 dark:text-gray-200">
-                        {item.desc}
-                      </p>
                     </motion.div>
                   ))}
                 </motion.div>
