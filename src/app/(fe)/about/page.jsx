@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import { ArrowDownToLineIcon } from "lucide-react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
-import { FaEnvelope, FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
-import { Separator } from "@/components/ui/separator";
+import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
+import { RiInstagramFill } from "react-icons/ri";
 import SkeletonProfile from "@/components/skeleton-loader/profile";
 import SkeletonAbout from "@/components/skeleton-loader/about";
 import SkeletonEducation from "@/components/skeleton-loader/education";
@@ -145,7 +145,7 @@ export default function About() {
                   target="_blank"
                 >
                   <Button className="hover:cursor-pointer duration-200">
-                    Download CV <ArrowDownToLineIcon/>
+                    Download CV <ArrowDownToLineIcon />
                   </Button>
                 </a>
               </motion.div>
@@ -166,7 +166,7 @@ export default function About() {
             <motion.div variants={subContainer} className="flex gap-4">
               {[
                 {
-                  icon: <FaInstagram />,
+                  icon: <RiInstagramFill />,
                   link: "https://instagram.com/afif.rohul",
                 },
                 {
