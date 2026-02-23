@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
-import { FaEnvelope, FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
+import { FaEnvelope, FaGithub, FaLinkedin } from "react-icons/fa";
+import { RiInstagramFill } from "react-icons/ri";
 import { useTheme } from "next-themes";
 
 export default function Footer() {
@@ -32,7 +33,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               className="text-gray-600 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-400 duration-150 transition-all"
             >
-              <FaInstagram></FaInstagram>
+              <RiInstagramFill></RiInstagramFill>
             </a>
             <a
               href="https://www.linkedin.com/in/afifrohul/"
